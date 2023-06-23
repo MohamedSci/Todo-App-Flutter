@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/Authentication/Logic/Auth_Api.dart';
 import 'package:todo_app/Authentication/Logic/authScreenProvider.dart';
-import 'package:todo_app/Authentication/Screens/Auth_main_page.dart';
 import 'package:todo_app/Authentication/Screens/auth_error_dialoge.dart';
+import 'package:todo_app/TODO_List/Screens/Display_Tasks.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,11 +12,12 @@ class LogInButton extends StatefulWidget {
       {Key key,
       @required this.btnTxt,
       @required this.height,
+      @required this.formKey,
       @required this.width})
       : super(key: key);
   String btnTxt;
   double width, height;
-
+  GlobalKey<FormState> formKey;
   @override
   State<LogInButton> createState() => _LogInButtonState();
 }
@@ -38,7 +39,7 @@ class _LogInButtonState extends State<LogInButton> {
               builder: (context, state) {
                 return InkWell(
                   onTap: () async {
-                    if (formKey.currentState.validate()) {
+                    if (widget.formKey.currentState.validate()) {
                       String mailTxt =
                           AuthScreenProvider.get(context).getMailText() ?? "";
                       String passTxt =
@@ -47,7 +48,7 @@ class _LogInButtonState extends State<LogInButton> {
                       print("passTxt : $passTxt");
                       bool isAuthenticated;
                       isAuthenticated =   await  AuthApi.get(context)
-                          .postRequest(mail: mailTxt, pass: passTxt);
+                          .getUser(mail: mailTxt, pass: passTxt);
                       print("isAuthenticated 00 $isAuthenticated");
                       if (isAuthenticated != null && isAuthenticated == true) {
                         print("isAuthenticated 01 $isAuthenticated");
@@ -55,7 +56,7 @@ class _LogInButtonState extends State<LogInButton> {
                             .addPostFrameCallback((_) => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SizedBox()),
+                                      builder: (context) => DisplayingTasks()),
                                 ));
                       } else {
                         await showDialog(

@@ -13,11 +13,10 @@ class AuthMainScreen extends StatefulWidget {
   @override
   State<AuthMainScreen> createState() => _AuthMainScreenState();
 }
-final formKey = GlobalKey<FormState>();
 
 class _AuthMainScreenState extends State<AuthMainScreen> {
-  double height,
-      width = 0.000;
+  double height, width = 0.000;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,7 @@ class _AuthMainScreenState extends State<AuthMainScreen> {
                           VerticalSeperator(height: height,width: width,),
                           TextFieldPass(txtField: "Enter your Password"),
                           VerticalSeperator(height: height,width: width,),
-                          LogInButton(btnTxt: "Sign In",height: height,width: width,),
+                          LogInButton(btnTxt: "Sign In",height: height,width: width,formKey: formKey),
                           VerticalSeperator(height: height,width: width,),
 
                         ],),

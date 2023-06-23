@@ -1,13 +1,13 @@
 import 'package:todo_app/database_sqflite/database_provider.dart';
 
 
-class Task {
+class TaskModel {
   int id;
   String title;
   String description;
   String date;
 
-  Task(id ,this.title, {this.description, this.date});
+  TaskModel(id ,this.title, {this.description, this.date});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -19,7 +19,7 @@ class Task {
        return map;
   }
 
-  Task.fromMap(Map<String, dynamic> map) {
+  TaskModel.fromMap(Map<String, dynamic> map) {
     id = map[DatabaseProvider.COLUMN_ID];
     title = map[DatabaseProvider.COLUMN_TITLE];
     description = map[DatabaseProvider.COLUMN_DESCRIPTION];

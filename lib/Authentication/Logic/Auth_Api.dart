@@ -10,7 +10,7 @@ class AuthApi extends Cubit<ChangState> {
 
   static AuthApi get(context) => BlocProvider.of(context);
 
-
+String refresh_token = "";
 
   String token = "";
 
@@ -23,7 +23,7 @@ class AuthApi extends Cubit<ChangState> {
     return token;
   }
 
-  Future<bool> postRequest(
+  Future<bool> getUser(
       {@required String mail, @required String pass}) async {
     bool isAuthenticated = false;
     http.Response response;
@@ -42,7 +42,17 @@ class AuthApi extends Cubit<ChangState> {
       print("statusCode : ${response.statusCode}");
       print("response.body : ${response.body}");
       print("token: $token");
-    } else {
+    }     else if(response.statusCode == 401){
+      //refresh token and call getUser again
+      http.Response response = await http.post(Uri.https(
+          "https://phpstack-561490-3524079.cloudwaysapps.com/api-start-point/public/apiauth/refresh-token"),
+          headers: {'grant_type': 'refresh_token', 'refresh_token': '$refresh_token'});
+      token = json.decode(response.body)["data"]["token"];
+      refresh_token = jsonDecode(response.body)['refresh_token'];
+      // return getUser();
+    }
+
+    else {
       isAuthenticated = false;
     }
     return isAuthenticated;

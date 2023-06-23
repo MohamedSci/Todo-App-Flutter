@@ -49,7 +49,7 @@ class DatabaseProvider extends Cubit<ChangState> {
     );
   }
 
-  Future<List<Task>> getTasks() async {
+  Future<List<TaskModel>> getTasks() async {
     final db = await database;
     var tasks = await db.query(TABLE_task, columns: [
       COLUMN_ID,
@@ -59,9 +59,9 @@ class DatabaseProvider extends Cubit<ChangState> {
     ]);
     // if (tasks.isEmpty) return [];
     print(tasks);
-    List<Task> taskList = List<Task>();
+    List<TaskModel> taskList = List<TaskModel>();
     tasks.forEach((currenttask) {
-      Task task = Task.fromMap(currenttask);
+      TaskModel task = TaskModel.fromMap(currenttask);
       taskList.add(task);
     });
     print(taskList);
@@ -77,7 +77,7 @@ class DatabaseProvider extends Cubit<ChangState> {
     return taskList;
   }
 
-  insert(Task task) async {
+  insert(TaskModel task) async {
     final db = await database;
     final i = await db.insert(TABLE_task, task.toMap());
     emit(DatabaseAddState());
@@ -112,7 +112,7 @@ class DatabaseProvider extends Cubit<ChangState> {
     return d;
   }
 
-  Future<int> update(Task task, int id) async {
+  Future<int> update(TaskModel task, int id) async {
     print('============= $id');
     final db = await database;
     final u = await db.update(
