@@ -70,7 +70,7 @@ class _TaskButtonState extends State<TaskButton> {
               color: todoCont.getColorNum(),
               name: todoCont.getNameText(),
               desc: todoCont.getDescText(),
-              date: todoCont.getDescText(),
+              date: todoCont.getDateText(),
               time: todoCont.getTimeText(),
             ),
             child: Container(

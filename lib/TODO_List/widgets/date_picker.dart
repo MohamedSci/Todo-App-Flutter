@@ -20,13 +20,13 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
            await DatePicker.showSimpleDatePicker(
             context,
             initialDate: DateTime.now(),
-            firstDate: DateTime(1960),
-            lastDate: DateTime(2012),
+            firstDate: DateTime(2023),
+            lastDate: DateTime(2030),
             dateFormat: "dd-MMMM-yyyy",
-            locale: DateTimePickerLocale.th,
+            locale: DateTimePickerLocale.en_us,
             looping: true,
           ).then((value) {
-             ToDoController.get(context).setNameText(value.toIso8601String());
+             ToDoController.get(context).setDateString(value.toIso8601String());
              print("datePicked datePicked $value");
            }
              );
@@ -36,6 +36,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         // controller: widget.dateController,
         style: const TextStyle(color: kBackColor),
         decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.arrow_drop_down_outlined),
             hintText: "Start Date",
             hintStyle: TextStyle(color: kButtonColor),
             isDense: true,

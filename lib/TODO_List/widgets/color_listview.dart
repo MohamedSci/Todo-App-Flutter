@@ -41,12 +41,13 @@ class _ColorListViewState extends State<ColorListView> {
             child: SizedBox(
               height: widget.height * 0.12,
               width: widget.width * 0.12,
-              child: InkWell(onTap: () {
-                ToDoController.get(context).setColorNum(kListOptionsColor[i]);
-                setState(() {
-                  isChoosed = true;
-                });
-              },
+              child: InkWell(
+                  onTap: () {
+                    ToDoController.get(context).setColorNum(kListOptionsColor[i]);
+                    setState(() {
+                      isChoosed = true;
+                    });
+                  },
                   child: CircleAvatar(backgroundColor: Color(kListOptionsColor[i]),
                     radius: isChoosed?38:26,)),
             ),

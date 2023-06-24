@@ -23,7 +23,7 @@ DateTime dateNow = DateTime.now();
     super.initState();
   }
   Future<void> onTimeChanged(Time newTime) async {
-    await ToDoController.get(context).setNameText(newTime.toString());
+    await ToDoController.get(context).setTimeText(newTime.toString());
     print("_time _time $newTime");
   }
 
@@ -47,6 +47,7 @@ DateTime dateNow = DateTime.now();
         // controller: widget.timeController,
         style: const TextStyle(color: kBackColor),
         decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.arrow_drop_down_outlined),
             hintText: "Start Date",
             hintStyle: TextStyle(color: kButtonColor),
             isDense: true,
