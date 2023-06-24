@@ -26,9 +26,7 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(title: const Text("")),
-      body: SafeArea(
+    return SafeArea(
         child: Container(
           height: height,
           width: width,
@@ -41,6 +39,7 @@ class _AddTaskState extends State<AddTask> {
             // shrinkWrap: true,
             // scrollDirection: Axis.vertical,
             children: [
+              Expanded(flex: 3,child: TextWidget(fontSize: 20,color: Colors.black,txt: "NEW TASK",)),
               Expanded(flex: 2, child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -96,6 +95,6 @@ class _AddTaskState extends State<AddTask> {
           ),
         ),
       )
-    );
+    ;
   }
 }

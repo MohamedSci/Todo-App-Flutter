@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/TODO_List/Screens/add_task/Add_Task.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_screen.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
 import 'package:todo_app/states/states.dart';
 
@@ -14,7 +16,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   DateTime dateTime = DateTime.now();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   OnUpdate(int id) {
     int enteryid = id;
@@ -55,24 +57,27 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
       },
       builder: (context, state) {
         return Scaffold(
-          key: _scaffoldKey,
+          // appBar: AppBar(),
+          drawer: DrawerScreen(width: width,state: DrawerState.insert),
+          key: scaffoldKey,
           floatingActionButton: SizedBox(
             height: 100,
             width: 100,
             child: FloatingActionButton(
               shape:
                   const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddTask(),)),
-
+              onPressed: () {
+                  // Navigator.push(context,
+                  // MaterialPageRoute(builder: (context) => const AddTask(),)),
+                if(scaffoldKey.currentState.isDrawerOpen){
+          scaffoldKey.currentState.closeDrawer();
+          //close drawer, if drawer is open
+          }else{
+          scaffoldKey.currentState.openDrawer();
+          //open drawer, if drawer is closed
+          }},
                   // Scaffold.of(context).openDrawer(),
 
-              // await showDialog(
-              //     context: context,
-              //     builder: (BuildContext cxt) {
-              //       return const AddTask();
-              //     });
-              // },
               child: const Icon(Icons.add),
             ),
           ),
@@ -83,8 +88,8 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 colors: <Color>[
-                  Color(0xFF0DC4F4),
-                  Color(0xFFFFA5D7)
+                  Color(0xFFB2FFFF),
+                  Color(0xFFFFF2E4)
                 ],
               ),
             ),
@@ -135,7 +140,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   color: Colors.white,
-                                height: height * 0.15,
+                                height: height * 0.1,
                                 width: width,
                                 child:
                                   Row(
@@ -144,7 +149,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                        flex:1,
                                         child: CircleAvatar(
                                           backgroundColor: Color(taskData[index].color),
-                                          radius: 20,),
+                                          radius: 16,),
                                       ),
                                       Expanded(
                                         flex: 4,
@@ -159,20 +164,22 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                       Expanded(
                                         flex: 2,
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Text(
                                               taskData[index].date,
                                               style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                  color: Colors.black,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             const SizedBox(height: 5),
                                             Text(
                                               taskData[index].time,
                                               style: const TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 11,
                                                   color: Colors.indigo,
                                                   fontWeight: FontWeight.w400),
                                             ),
