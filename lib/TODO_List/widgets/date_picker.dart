@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Constants/colors.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 
 class DatePickerWidget extends StatefulWidget {
    DatePickerWidget({Key key,@required this.dateController}) : super(key: key);
@@ -16,7 +17,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       color: Colors.cyan,
       child: TextField(
         onTap: () async {
-          var datePicked = await DatePicker.showSimpleDatePicker(
+           await DatePicker.showSimpleDatePicker(
             context,
             initialDate: DateTime.now(),
             firstDate: DateTime(1960),
@@ -24,11 +25,15 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             dateFormat: "dd-MMMM-yyyy",
             locale: DateTimePickerLocale.th,
             looping: true,
-          );
-          print("datePicked datePicked $datePicked");
+          ).then((value) {
+             ToDoController.get(context).setNameText(value.toIso8601String());
+             print("datePicked datePicked $value");
+           }
+             );
+
 
         },
-        controller: widget.dateController,
+        // controller: widget.dateController,
         style: const TextStyle(color: kBackColor),
         decoration: const InputDecoration(
             hintText: "Start Date",

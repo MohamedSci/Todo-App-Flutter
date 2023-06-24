@@ -19,3 +19,15 @@ class SetMailTextState extends ChangState {}
 class SetPassTextState extends ChangState {}
 
 class SetIsAuthenticatedState extends ChangState {}
+
+class SetIdNumState extends ChangState {}
+
+class SetColorNumState extends ChangState {}
+
+class SetNameTextState extends ChangState {}
+
+class SetDescTextState extends ChangState {}
+
+class SetDateTextState extends ChangState {}
+
+class SetTimeTextState extends ChangState {}

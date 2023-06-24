@@ -7,7 +7,8 @@ import 'package:todo_app/Authentication/Logic/authScreenProvider.dart';
 import 'package:todo_app/Authentication/Screens/Auth_main_page.dart';
 import 'package:todo_app/Constants/colors.dart';
 import 'package:todo_app/Constants/strings.dart';
-import 'package:todo_app/database_sqflite/database_provider.dart';
+import 'package:todo_app/TODO_List/controller/todo_controller.dart';
+import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/generalWidgets/custum_route.dart';
 
 void main() {
@@ -20,6 +21,9 @@ void main() {
     ),
     BlocProvider<DatabaseProvider>(
       create: (BuildContext context) => DatabaseProvider(),
+    ),
+    BlocProvider<ToDoController>(
+      create: (BuildContext context) => ToDoController(),
     ),
   ], child: MyApp()));
 }

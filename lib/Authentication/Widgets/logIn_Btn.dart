@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/Authentication/Logic/Auth_Api.dart';
 import 'package:todo_app/Authentication/Logic/authScreenProvider.dart';
 import 'package:todo_app/Authentication/Screens/auth_error_dialoge.dart';
-import 'package:todo_app/TODO_List/Screens/Display_Tasks.dart';
+import 'package:todo_app/TODO_List/Screens/DisplayTasks/Display_Tasks.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

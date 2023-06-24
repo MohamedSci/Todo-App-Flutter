@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Constants/colors.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 
 class TimePickerWidget extends StatefulWidget {
    TimePickerWidget({Key key,@required this.timeController}) : super(key: key);
@@ -21,11 +22,9 @@ DateTime dateNow = DateTime.now();
     // TODO: implement initState
     super.initState();
   }
-  void onTimeChanged(Time newTime) {
-    setState(() {
-      _time = newTime;
-    });
-    print("_time _time $_time");
+  Future<void> onTimeChanged(Time newTime) async {
+    await ToDoController.get(context).setNameText(newTime.toString());
+    print("_time _time $newTime");
   }
 
   @override
@@ -45,7 +44,7 @@ DateTime dateNow = DateTime.now();
             ),
           );
         },
-        controller: widget.timeController,
+        // controller: widget.timeController,
         style: const TextStyle(color: kBackColor),
         decoration: const InputDecoration(
             hintText: "Start Date",

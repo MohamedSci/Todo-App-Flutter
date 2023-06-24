@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/TODO_List/Screens/add_task/screen/Add_Task.dart';
-import 'package:todo_app/database_sqflite/database_provider.dart';
-import 'package:todo_app/database_sqflite/task_model/task.dart';
+import 'package:todo_app/TODO_List/Screens/add_task/Add_Task.dart';
+import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
+import 'package:todo_app/TODO_List/task_model/task_model.dart';
 import 'package:todo_app/states/states.dart';
 
 class DisplayingTasks extends StatefulWidget {
@@ -20,8 +20,12 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
     int enteryid = id;
     if (titleController.text != "") {
       print("id = $id");
-      TaskModel updateTask = TaskModel(enteryid, titleController.text,
-          description: descriptionController.text, date: "");
+      TaskModel updateTask = TaskModel(
+          color: 0,
+          title: titleController.text,
+          description: descriptionController.text,
+          date: "",
+      time: "");
       print("One Task module is updated");
       DatabaseProvider.get(context).update(updateTask, enteryid);
       print("One Task Updated; all finished");

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/Constants/colors.dart';
+import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 
 class ColorListView extends StatefulWidget {
   ColorListView({Key key, @required this.height, @required this.width})
@@ -11,6 +11,8 @@ class ColorListView extends StatefulWidget {
 }
 
 class _ColorListViewState extends State<ColorListView> {
+
+  bool isChoosed = false;
   List<int> kListOptionsColor = [
     0xFFFF008D,
     0xFF0DC4F4,
@@ -34,16 +36,19 @@ class _ColorListViewState extends State<ColorListView> {
         itemCount: kListOptionsColor.length,
         itemBuilder: (context, i) {
           print("kListOptionsColor i --- ${kListOptionsColor[i]}");
-
           return  Padding(
             padding: EdgeInsets.all(widget.width * 0.005),
             child: SizedBox(
-              height: widget.height * 0.1,
-              width: widget.width * 0.1,
+              height: widget.height * 0.12,
+              width: widget.width * 0.12,
               child: InkWell(onTap: () {
-
+                ToDoController.get(context).setColorNum(kListOptionsColor[i]);
+                setState(() {
+                  isChoosed = true;
+                });
               },
-                  child: CircleAvatar(backgroundColor: Color(kListOptionsColor[i]))),
+                  child: CircleAvatar(backgroundColor: Color(kListOptionsColor[i]),
+                    radius: isChoosed?38:26,)),
             ),
           );
         },

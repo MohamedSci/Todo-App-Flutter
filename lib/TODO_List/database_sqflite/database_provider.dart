@@ -1,0 +1,155 @@
+import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqlite_api.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/TODO_List/task_model/task_model.dart';
+import 'package:todo_app/states/states.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+class DatabaseProvider extends Cubit<ChangState> {
+  DatabaseProvider() : super(InitialState());
+
+  //take object-
+  static DatabaseProvider get(context) => BlocProvider.of(context);
+  static const String TABLE_task = "task";
+  static const String COLUMN_ID = "id";
+  static const String COLUMN_COLOR = "color";
+  static const String COLUMN_TITLE = "title";
+  static const String COLUMN_DESCRIPTION = "description";
+  static const String COLUMN_DATE = "date";
+  static const String COLUMN_TIME = "time";
+
+  Database _database;
+
+  Future<Database> get database async {
+    print("database getter called");
+//affected by task class task_model.dart directory:model
+    if (_database != null) {
+      print('opening previous sqflite database');
+      return _database;
+    }
+    _database = await createDatabase();
+    print("created  database sqflite");
+    return _database;
+  }
+
+  Future<Database> createDatabase() async {
+    String dbPath = await getDatabasesPath();
+    return await openDatabase(
+      join(dbPath, 'taskDB.db'),
+      version: 1,
+      onCreate: (Database database, int version) async {
+        print("Creating task table");
+        await database.execute("CREATE TABLE $TABLE_task ("
+            "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            "$COLUMN_COLOR INTEGER,"
+            "$COLUMN_TITLE TEXT,"
+            "$COLUMN_DESCRIPTION TEXT,"
+            "$COLUMN_DATE TEXT,"
+            "$COLUMN_TIME TEXT"
+            ");");
+        emit(DatabaseInitialState());
+      },
+    );
+  }
+
+  Future<List<TaskModel>> getTasks() async {
+    final db = await database;
+    List<TaskModel> taskList = [];
+    try{
+      var tasks = await db.query(TABLE_task, columns: [
+        COLUMN_ID,
+        COLUMN_COLOR,
+        COLUMN_TITLE,
+        COLUMN_DESCRIPTION,
+        COLUMN_DATE,
+        COLUMN_TIME,
+      ]);
+      // if (tasks.isEmpty) return [];
+      print(tasks);
+     taskList = List<TaskModel>();
+      tasks.forEach((currenttask) {
+        TaskModel task = TaskModel.fromMap(currenttask);
+        taskList.add(task);
+      });
+      print(taskList);
+      Fluttertoast.showToast(
+          msg: "Data Retrieved Successfully !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }catch(e){
+      print("Data Retrieved Exception $e");
+    }
+    return taskList;
+  }
+
+  insert(TaskModel task) async {
+    final db = await database;
+    var i;
+    try{
+      i = await db.insert(TABLE_task, task.toMap());
+    Fluttertoast.showToast(
+        msg: "Inserted Successfully!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.amberAccent,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    }catch(e){print("Insertion Exception $e");}
+    emit(DatabaseAddState());
+    return i;
+  }
+
+  Future<int> delete(int id) async {
+    final db = await database;
+    int d;
+    try{
+       d = await db.delete(
+        TABLE_task,
+        where: "id = ?",
+        whereArgs: [id],
+      );
+      print("One Item deleted");
+      emit(DatabaseDeleteState());
+      Fluttertoast.showToast(
+          msg: "Removed Successfully!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }catch(e){print("Removal Exception $e");}
+    return d;
+  }
+
+  Future<int> update(TaskModel task, int id) async {
+    print('============= $id');
+    final db = await database;
+    int u;
+    try{
+      u = await db.update(
+        TABLE_task,
+        task.toMap(),
+        where: "id = ?",
+        whereArgs: [id],
+      );
+      Fluttertoast.showToast(
+          msg: "Updated !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }catch(e){print("Update Exception $e");}
+    emit(DatabaseUpdateState());
+    return u;
+  }
+}
