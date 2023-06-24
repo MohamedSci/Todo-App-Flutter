@@ -10,7 +10,7 @@ class TaskModel {
   String date;
   String time;
 
-  TaskModel({@required this.color, @required this.title,
+  TaskModel({@required this.id,@required this.color, @required this.title,
     @required  this.description,@required  this.date, @required  this.time});
 
   Map<String, dynamic> toMap() {

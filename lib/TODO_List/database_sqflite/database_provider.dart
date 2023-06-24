@@ -129,8 +129,7 @@ class DatabaseProvider extends Cubit<ChangState> {
     return d;
   }
 
-  Future<int> update(TaskModel task, int id) async {
-    print('============= $id');
+  Future<int> update(TaskModel task,) async {
     final db = await database;
     int u;
     try{
@@ -138,7 +137,7 @@ class DatabaseProvider extends Cubit<ChangState> {
         TABLE_task,
         task.toMap(),
         where: "id = ?",
-        whereArgs: [id],
+        whereArgs: [task.id],
       );
       Fluttertoast.showToast(
           msg: "Updated !",

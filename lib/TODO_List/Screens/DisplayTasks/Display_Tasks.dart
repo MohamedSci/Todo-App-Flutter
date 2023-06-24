@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/TODO_List/Screens/add_task/Add_Task.dart';
+import 'package:todo_app/Constants/month_map.dart';
+import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_screen.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
@@ -19,7 +20,6 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   OnUpdate(int id) {
-    int enteryid = id;
     if (titleController.text != "") {
       print("id = $id");
       TaskModel updateTask = TaskModel(
@@ -27,9 +27,9 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
           title: titleController.text,
           description: descriptionController.text,
           date: "",
-      time: "");
+          time: "");
       print("One Task module is updated");
-      DatabaseProvider.get(context).update(updateTask, enteryid);
+      DatabaseProvider.get(context).update(updateTask);
       print("One Task Updated; all finished");
     } else {
       print("there is no title");
@@ -56,40 +56,40 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
         print(state);
       },
       builder: (context, state) {
+        ToDoController toDoController = ToDoController.get(context);
         return Scaffold(
-          // appBar: AppBar(),
-          drawer: DrawerScreen(width: width,state: DrawerState.insert),
+          drawer: DrawerScreen(width: width, state: DrawerState.insert),
           key: scaffoldKey,
-          floatingActionButton: SizedBox(
-            height: 100,
-            width: 100,
-            child: FloatingActionButton(
-              shape:
-                  const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-              onPressed: () {
-                  // Navigator.push(context,
-                  // MaterialPageRoute(builder: (context) => const AddTask(),)),
-                if(scaffoldKey.currentState.isDrawerOpen){
-          scaffoldKey.currentState.closeDrawer();
-          //close drawer, if drawer is open
-          }else{
-          scaffoldKey.currentState.openDrawer();
-          //open drawer, if drawer is closed
-          }},
-                  // Scaffold.of(context).openDrawer(),
-
-              child: const Icon(Icons.add),
+          floatingActionButton: InkWell(
+            onTap: () {
+              if (scaffoldKey.currentState.isDrawerOpen) {
+                scaffoldKey.currentState.closeDrawer();
+                //close drawer, if drawer is open
+              } else {
+                scaffoldKey.currentState.openDrawer();
+                ToDoController.get(context)
+                    .setDrawerState(DrawerState.insert);
+                //open drawer, if drawer is closed
+              }
+            },
+            child: Container(
+              height: width * 0.17,
+              width: width * 0.17,
+                decoration: const BoxDecoration(
+                    color: Color(0xFF13A3FF),
+                    borderRadius: BorderRadius.all(Radius.circular(24))
+                ),
+              child:  Icon(Icons.add,color: Colors.white,size: width * 0.09,)
             ),
           ),
-
           body: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 colors: <Color>[
-                  Color(0xFFB2FFFF),
-                  Color(0xFFFFF2E4)
+                  Color(0xAFF8B8F2),
+                  Color(0xFFFFF2E4),
                 ],
               ),
             ),
@@ -98,18 +98,25 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
             child: Column(
               children: [
                 SizedBox(
-                    width: width ,height: height * 0.15,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [Align(alignment: Alignment.center,
-                    child: Text(
-                      'TODO',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),],)),
+                    width: width,
+                    height: height * 0.15,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'TODO',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
                 SizedBox(
-                 width: width, height: height * 0.85,
+                  width: width,
+                  height: height * 0.75,
                   child: RefreshIndicator(
                     onRefresh: _refreshList,
                     child: FutureBuilder<List<TaskModel>>(
@@ -121,74 +128,101 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                         List<TaskModel> taskData =
                             snapshot.hasData ? snapshot.data : [];
                         return ListView.builder(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 4),
                           itemCount: taskData?.length ?? 0,
                           itemBuilder: (BuildContext context, int index) {
-                            final item = taskData[index];
+                            TaskModel currentTask = taskData[index];
                             return Dismissible(
                               key: const Key("task"),
                               onDismissed: (direction) {
-                                DatabaseProvider.get(context).delete(item.id);
+                                DatabaseProvider.get(context)
+                                    .delete(currentTask.id);
                                 setState(() {
-                                  taskData.removeAt(item.id);
+                                  taskData.removeAt(currentTask.id);
                                 });
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('${item.title} Deleted Successfully')));
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        '${currentTask.title} Deleted Successfully')));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.white,
-                                height: height * 0.1,
-                                width: width,
-                                child:
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                       flex:1,
-                                        child: CircleAvatar(
-                                          backgroundColor: Color(taskData[index].color),
-                                          radius: 16,),
-                                      ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: Text(
-                                          taskData[index].title,
-                                          style: const TextStyle(
-                                              fontSize: 22,
-                                              color: Colors.amber,
-                                              fontWeight: FontWeight.w600),
+                                child: InkWell(
+                                  onTap: () {
+                                    scaffoldKey.currentState.openDrawer();
+                                    toDoController
+                                        .setDrawerState(DrawerState.update);
+                                    toDoController.setIdNum(currentTask.id);
+                                    toDoController
+                                        .setNameText(currentTask.title);
+                                    toDoController
+                                        .setColorNum(currentTask.color);
+                                    toDoController
+                                        .setDescString(currentTask.description);
+                                    toDoController
+                                        .setDateString(currentTask.date);
+                                    toDoController
+                                        .setTimeText(currentTask.time);
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(Radius.circular(14))
+                                    ),
+                                    height: height * 0.1,
+                                    width: width,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: CircleAvatar(
+                                            backgroundColor:
+                                                Color(taskData[index].color),
+                                            radius: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              taskData[index].date,
-                                              style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              taskData[index].time,
-                                              style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.indigo,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
+                                        Expanded(
+                                          flex: 6,
+                                          child: Text(
+                                            "  ${taskData[index].title}",
+                                            overflow: TextOverflow.fade,
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF181743),
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]}  ",
+                                                style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                "${taskData[index].time}  ",
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.indigo,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-
                                 ),
                               ),
                             );

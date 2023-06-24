@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Constants/colors.dart';
+import 'package:todo_app/TODO_List/widgets/add_task_Button.dart';
 import 'package:todo_app/TODO_List/widgets/date_picker.dart';
 import 'package:todo_app/TODO_List/widgets/color_listview.dart';
 import 'package:todo_app/TODO_List/widgets/desc_txt_field.dart';
 import 'package:todo_app/TODO_List/widgets/name_txtField.dart';
-import 'package:todo_app/TODO_List/widgets/task_Button.dart';
 import 'package:todo_app/TODO_List/widgets/text_widget.dart';
 import 'package:todo_app/TODO_List/widgets/time_picker.dart';
 
@@ -57,7 +57,7 @@ class _AddTaskState extends State<AddTask> {
               )),
               Expanded(flex: 3, child: Align(
                   alignment: Alignment.centerLeft,
-                  child: NameTextField(nameController: nameController,))),
+                  child: NameTextField())),
               Expanded(flex: 2, child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -67,7 +67,7 @@ class _AddTaskState extends State<AddTask> {
               )),
               Expanded(flex: 5, child:Align(
                   alignment: Alignment.centerLeft,
-                  child: DescTextField(descController: descController,))),
+                  child: DescTextField())),
               Expanded(flex: 2, child:  Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -77,7 +77,7 @@ class _AddTaskState extends State<AddTask> {
               )),
               Expanded(flex: 3, child: Align(
                   alignment: Alignment.centerLeft,
-                  child: DatePickerWidget(dateController: dateController,))),
+                  child: DatePickerWidget())),
               Expanded(flex: 2, child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -87,10 +87,10 @@ class _AddTaskState extends State<AddTask> {
               )),
               Expanded(flex: 2, child: Align(
                   alignment: Alignment.centerLeft,
-                  child: TimePickerWidget(timeController: timeController,))),
+                  child: TimePickerWidget())),
               Expanded(flex:4 ,child: Align(
                   alignment: Alignment.centerLeft,
-                  child: TaskButton(height: height, width: width,btnTxt: "Add",)))
+                  child: AddTaskButton(height: height, width: width,btnTxt: "Add",)))
             ],
           ),
         ),

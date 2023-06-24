@@ -31,3 +31,7 @@ class SetDescTextState extends ChangState {}
 class SetDateTextState extends ChangState {}
 
 class SetTimeTextState extends ChangState {}
+
+class SetDrawerStateState extends ChangState {}
+
+class SetTaskModelState extends ChangState {}

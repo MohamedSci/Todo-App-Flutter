@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/Authentication/Logic/Auth_Api.dart';
-import 'package:todo_app/Authentication/Logic/authScreenProvider.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
@@ -9,8 +7,8 @@ import 'package:todo_app/TODO_List/widgets/text_widget.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TaskButton extends StatefulWidget {
-  TaskButton(
+class UpdateTaskButton extends StatefulWidget {
+  UpdateTaskButton(
       {Key key,
       @required this.btnTxt,
       @required this.height,
@@ -20,12 +18,13 @@ class TaskButton extends StatefulWidget {
   double width, height;
 
   @override
-  State<TaskButton> createState() => _TaskButtonState();
+  State<UpdateTaskButton> createState() => _UpdateTaskButtonState();
 }
 
-class _TaskButtonState extends State<TaskButton> {
-  OnSave(
-      {@required int color,
+class _UpdateTaskButtonState extends State<UpdateTaskButton> {
+  updateFun(
+      {@required int id,
+        @required int color,
       @required String name,
       @required String desc,
       @required String date,
@@ -33,15 +32,15 @@ class _TaskButtonState extends State<TaskButton> {
     if (name != "") {
       int id;
       // print("id = $id");
-      TaskModel insertTask = TaskModel(
+      TaskModel updateTask = TaskModel(id: id,
           color: color, title: name, description: desc, date: date, time: time
           // level:levelController.text , type: typeController.text
           );
       print("One Task module is created");
-     int i = await DatabaseProvider.get(context).insert(insertTask);
+     int i = await DatabaseProvider.get(context).update(updateTask);
      if(i != null){
-       print("color :$color , name : $name , desc : $desc , date : $date , time : $time");
-      print("One Task 0123456789 Inserted;");
+       print("id: $id , color :$color , name : $name , desc : $desc , date : $date , time : $time");
+      print("One Task 0123456789 Update;");
       Navigator.pop(context);}
     } else {
       print("there is no title");
@@ -66,7 +65,8 @@ class _TaskButtonState extends State<TaskButton> {
         builder: (context, state) {
           ToDoController todoCont = ToDoController.get(context);
           return InkWell(
-            onTap: () => OnSave(
+            onTap: () => updateFun(
+              id: todoCont.getIdNum(),
               color: todoCont.getColorNum(),
               name: todoCont.getNameText(),
               desc: todoCont.getDescText(),
@@ -74,7 +74,7 @@ class _TaskButtonState extends State<TaskButton> {
               time: todoCont.getTimeText(),
             ),
             child: Container(
-                width: widget.width,
+                width: widget.width * 0.3,
                 height: widget.height * 0.082,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
