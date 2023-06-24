@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/TODO_List/Screens/Add_Task.dart';
+import 'package:todo_app/TODO_List/Screens/add_task/screen/Add_Task.dart';
 import 'package:todo_app/database_sqflite/database_provider.dart';
 import 'package:todo_app/database_sqflite/task_model/task.dart';
 import 'package:todo_app/states/states.dart';
@@ -49,7 +49,6 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
       },
       builder: (context, state) {
         return Scaffold(
-          drawer: AddTask(),
           key: _scaffoldKey,
           floatingActionButton: SizedBox(
             height: 100,
@@ -57,7 +56,10 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
             child: FloatingActionButton(
               shape:
                   const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-              onPressed: () => Scaffold.of(context).openDrawer(),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddTask(),)),
+
+                  // Scaffold.of(context).openDrawer(),
 
               // await showDialog(
               //     context: context,
