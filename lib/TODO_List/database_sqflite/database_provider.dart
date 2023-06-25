@@ -54,12 +54,10 @@ class DatabaseProvider extends Cubit<ChangState> {
     );
   }
 
-
-
-  Future<List<TaskModel>>fetchTasks() async {
+  Future<List<TaskModel>> fetchTasks() async {
     final db = await database;
     List<TaskModel> taskList = [];
-    try{
+    try {
       var tasks = await db.query(TABLE_task, columns: [
         COLUMN_ID,
         COLUMN_COLOR,
@@ -70,7 +68,7 @@ class DatabaseProvider extends Cubit<ChangState> {
       ]);
       // if (tasks.isEmpty) return [];
       print(tasks);
-     taskList = List<TaskModel>();
+      taskList = List<TaskModel>();
       tasks.forEach((currenttask) {
         TaskModel task = TaskModel.fromMap(currenttask);
         taskList.add(task);
@@ -84,31 +82,60 @@ class DatabaseProvider extends Cubit<ChangState> {
           backgroundColor: Colors.amberAccent,
           textColor: Colors.white,
           fontSize: 16.0);
-    }catch(e){
+    } catch (e) {
       print("Data Retrieved Exception $e");
     }
     // setTasksList(tskList: taskList);
-    taskList
-        .sort((a, b) => a.date.compareTo(b.date));
-    taskList
-        .sort((a, b) => a.time.compareTo(b.time));
+    taskList.sort((a, b) => a.date.compareTo(b.date));
+    taskList.sort((a, b) => a.time.compareTo(b.time));
+    return taskList;
+  }
+
+  Future<List<TaskModel>> filterTasks({@required int color}) async {
+    final db = await database;
+    List<TaskModel> taskList = [];
+    try {
+      List<Map> tasks = await db.rawQuery(
+        'SELECT * FROM $TABLE_task WHERE $COLUMN_COLOR = $color',
+      );
+      taskList = List<TaskModel>();
+      tasks.forEach((currenttask) {
+        TaskModel task = TaskModel.fromMap(currenttask);
+        taskList.add(task);
+      });
+      print(taskList);
+      Fluttertoast.showToast(
+          msg: "Data Retrieved Successfully !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } catch (e) {
+      print("Data Filtration Exception $e");
+    }
+    taskList.sort((a, b) => a.date.compareTo(b.date));
+    taskList.sort((a, b) => a.time.compareTo(b.time));
     return taskList;
   }
 
   insert(TaskModel task) async {
     final db = await database;
     var i;
-    try{
+    try {
       i = await db.insert(TABLE_task, task.toMap());
-    Fluttertoast.showToast(
-        msg: "Inserted Successfully!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.amberAccent,
-        textColor: Colors.white,
-        fontSize: 16.0);
-    }catch(e){print("Insertion Exception $e");}
+      Fluttertoast.showToast(
+          msg: "Inserted Successfully!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } catch (e) {
+      print("Insertion Exception $e");
+    }
     emit(DatabaseAddState());
     return i;
   }
@@ -116,8 +143,8 @@ class DatabaseProvider extends Cubit<ChangState> {
   Future<int> delete(int id) async {
     final db = await database;
     int d;
-    try{
-       d = await db.delete(
+    try {
+      d = await db.delete(
         TABLE_task,
         where: "id = ?",
         whereArgs: [id],
@@ -132,14 +159,18 @@ class DatabaseProvider extends Cubit<ChangState> {
           backgroundColor: Colors.amberAccent,
           textColor: Colors.white,
           fontSize: 16.0);
-    }catch(e){print("Removal Exception $e");}
+    } catch (e) {
+      print("Removal Exception $e");
+    }
     return d;
   }
 
-  Future<int> update(TaskModel task,) async {
+  Future<int> update(
+    TaskModel task,
+  ) async {
     final db = await database;
     int u;
-    try{
+    try {
       u = await db.update(
         TABLE_task,
         task.toMap(),
@@ -154,7 +185,9 @@ class DatabaseProvider extends Cubit<ChangState> {
           backgroundColor: Colors.amberAccent,
           textColor: Colors.white,
           fontSize: 16.0);
-    }catch(e){print("Update Exception $e");}
+    } catch (e) {
+      print("Update Exception $e");
+    }
     emit(DatabaseUpdateState());
     return u;
   }
