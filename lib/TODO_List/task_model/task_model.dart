@@ -15,7 +15,7 @@ class TaskModel {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      // DatabaseProvider.COLUMN_ID: id,
+      DatabaseProvider.COLUMN_ID: id,
       DatabaseProvider.COLUMN_COLOR: color,
       DatabaseProvider.COLUMN_TITLE: title,
       DatabaseProvider.COLUMN_DESCRIPTION: description,

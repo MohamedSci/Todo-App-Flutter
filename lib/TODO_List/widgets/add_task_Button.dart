@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/Constants/functions.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
@@ -32,6 +33,7 @@ class _AddTaskButtonState extends State<AddTaskButton> {
       int id;
       // print("id = $id");
       TaskModel insertTask = TaskModel(
+        id: generateRandomNumber(),
           color: color, title: name, description: desc, date: date, time: time
           // level:levelController.text , type: typeController.text
           );

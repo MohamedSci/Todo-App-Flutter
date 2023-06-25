@@ -88,6 +88,10 @@ class DatabaseProvider extends Cubit<ChangState> {
       print("Data Retrieved Exception $e");
     }
     // setTasksList(tskList: taskList);
+    taskList
+        .sort((a, b) => a.date.compareTo(b.date));
+    taskList
+        .sort((a, b) => a.time.compareTo(b.time));
     return taskList;
   }
 
