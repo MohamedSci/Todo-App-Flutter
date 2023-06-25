@@ -58,12 +58,14 @@ class _DeleteTaskButtonState extends State<DeleteTaskButton> {
               id: todoCont.getIdNum(),
             ),
             child: Container(
-                width: widget.width * 0.2,
+                width: widget.width * 0.3,
                 height: widget.height * 0.082,
-                color: const Color(0xFFE30000),
+                decoration: const BoxDecoration(
+                    color: Color(0xFFE30000),
+                    borderRadius: BorderRadius.all(Radius.circular(32))),
                 child: Center(
                   child: TextWidget(
-                      color: Colors.white, fontSize: 16, txt: widget.btnTxt),
+                      color: Colors.white, fontSize: 17, txt: widget.btnTxt),
                 )),
           );
         });

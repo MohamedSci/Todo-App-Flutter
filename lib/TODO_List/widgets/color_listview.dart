@@ -44,27 +44,24 @@ class _ColorListViewState extends State<ColorListView> {
             itemCount: kListOptionsColor.length,
             itemBuilder: (context, i) {
               print("kListOptionsColor i --- ${kListOptionsColor[i]}");
-              return  Padding(
-                padding: EdgeInsets.all(widget.width * 0.005),
-                child: Container(
-                  margin: const EdgeInsets.all(3.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: ToDoController.get(context).getColorNum()==kListOptionsColor[i]?
-                  BoxDecoration(
-                      border: Border.all(color: Color(kListOptionsColor[i]))
-                  ):null,
-                  height: widget.height * 0.12,
-                  width: widget.width * 0.12,
-                  child: InkWell(
-                      onTap: () {
-                        ToDoController.get(context).setColorNum(kListOptionsColor[i]);
-                        setState(() {
-                          isChoosed = true;
-                        });
-                      },
-                      child: CircleAvatar(backgroundColor: Color(kListOptionsColor[i]),
-                        radius: 32,)),
-                ),
+              return  Container(
+                margin: const EdgeInsets.all(1.0),
+                padding: const EdgeInsets.all(2.0),
+                decoration: ToDoController.get(context).getColorNum()==kListOptionsColor[i]?
+                BoxDecoration(
+                    border: Border.all(color: Color(kListOptionsColor[i]))
+                ):null,
+                height: widget.height * 0.10,
+                width: widget.width * 0.12,
+                child: InkWell(
+                    onTap: () {
+                      ToDoController.get(context).setColorNum(kListOptionsColor[i]);
+                      setState(() {
+                        isChoosed = true;
+                      });
+                    },
+                    child: CircleAvatar(backgroundColor: Color(kListOptionsColor[i]),
+                      radius: 32,)),
               );
             },
           ),

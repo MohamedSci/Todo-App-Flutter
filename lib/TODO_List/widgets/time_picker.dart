@@ -37,31 +37,49 @@ TextEditingController timeController= TextEditingController();
         },
         builder: (context, state) {
           timeController.text = ToDoController.get(context).getTimeText();
-        return Container(
-          color: Colors.red,
-          child: TextField(
-            onTap: () {
-              Navigator.of(context).push(
-                showPicker(
-                  context: context,
-                  value: _time,
-                  sunrise: const TimeOfDay(hour: 6, minute: 0), // optional
-                  sunset: const TimeOfDay(hour: 18, minute: 0), // optional
-                  duskSpanInMinutes: 120, // optional
-                  onChange: onTimeChanged,
+        return Stack(
+          children: [
+            TextField(
+              onTap: () {
+                Navigator.of(context).push(
+                  showPicker(
+                    context: context,
+                    value: _time,
+                    sunrise: const TimeOfDay(hour: 6, minute: 0), // optional
+                    sunset: const TimeOfDay(hour: 18, minute: 0), // optional
+                    duskSpanInMinutes: 120, // optional
+                    onChange: onTimeChanged,
+                  ),
+                );
+              },
+              controller: timeController,
+              style: const TextStyle(color: Colors.black),
+              decoration: const InputDecoration(
+                  suffixIcon: Icon(Icons.arrow_drop_down_outlined,size: 27),
+                  hintText: "Start Date",
+                  hintStyle: TextStyle(color: Colors.black),
+                  // isDense: true,
+                  // filled: true,
+                  // fillColor: kCardColor
+              ),
+            ),
+            Positioned(
+              bottom: -1,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.002,
+                width: MediaQuery.of(context).size.width - 20,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF181743),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+
                 ),
-              );
-            },
-            controller: timeController,
-            style: const TextStyle(color: kBackColor),
-            decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.arrow_drop_down_outlined),
-                hintText: "Start Date",
-                hintStyle: TextStyle(color: kButtonColor),
-                isDense: true,
-                filled: true,
-                fillColor: kCardColor),
-          ),
+              ),
+            )
+
+          ],
         );
       }
     );

@@ -41,7 +41,7 @@ class _NameTextFieldState extends State<NameTextField> {
             Positioned(
               bottom: -1,
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.005,
+                height: MediaQuery.of(context).size.height * 0.004,
                 width: MediaQuery.of(context).size.width - 20,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -50,8 +50,8 @@ class _NameTextFieldState extends State<NameTextField> {
                   ),
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xFFFE1E9A),
                       Color(0xFF254DDE),
+                      Color(0xFFFE1E9A),
                     ],
                   ),
                 ),

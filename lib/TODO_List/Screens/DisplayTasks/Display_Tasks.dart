@@ -48,7 +48,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     Future<void> _refreshList() async {
-      DatabaseProvider.get(context).getTasks();
+      DatabaseProvider.get(context).fetchTasks();
     }
 
     return BlocConsumer<DatabaseProvider, ChangState>(
@@ -73,13 +73,13 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
               }
             },
             child: Container(
-              height: width * 0.17,
-              width: width * 0.17,
+                height: width * 0.17,
+                width: width * 0.17,
                 decoration: const BoxDecoration(
                     color: Color(0xFF13A3FF),
-                    borderRadius: BorderRadius.all(Radius.circular(24))
+                    borderRadius: BorderRadius.all(Radius.circular(28))
                 ),
-              child:  Icon(Icons.add,color: Colors.white,size: width * 0.09,)
+                child:  Icon(Icons.add,color: Colors.white,size: width * 0.09,)
             ),
           ),
           body: Container(
@@ -120,13 +120,13 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                   child: RefreshIndicator(
                     onRefresh: _refreshList,
                     child: FutureBuilder<List<TaskModel>>(
-                      future: DatabaseProvider.get(context).getTasks(),
+                      future: DatabaseProvider.get(context).fetchTasks(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState != ConnectionState.done) {
                           return const SizedBox();
                         }
                         List<TaskModel> taskData =
-                            snapshot.hasData ? snapshot.data : [];
+                        snapshot.hasData ? snapshot.data : [];
                         return ListView.builder(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 4),
@@ -177,7 +177,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                           flex: 1,
                                           child: CircleAvatar(
                                             backgroundColor:
-                                                Color(taskData[index].color),
+                                            Color(taskData[index].color),
                                             radius: 16,
                                           ),
                                         ),
@@ -196,9 +196,9 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                           flex: 1,
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]}  ",
@@ -206,7 +206,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                                     fontSize: 12,
                                                     color: Colors.black,
                                                     fontWeight:
-                                                        FontWeight.w600),
+                                                    FontWeight.w600),
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
@@ -215,7 +215,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                                     fontSize: 10,
                                                     color: Colors.indigo,
                                                     fontWeight:
-                                                        FontWeight.w400),
+                                                    FontWeight.w400),
                                               ),
                                             ],
                                           ),

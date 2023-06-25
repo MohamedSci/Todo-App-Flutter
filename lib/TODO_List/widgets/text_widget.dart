@@ -15,7 +15,7 @@ class _TextWidgetState extends State<TextWidget> {
   Widget build(BuildContext context) {
     return  Text(widget.txt,
       style: TextStyle(
-    fontSize: widget.fontSize, fontFamily: "Lato",color: widget.color
+    fontSize: widget.fontSize, fontFamily: "Lato",color: widget.color,fontWeight: FontWeight.w400
     ),);
   }
 }

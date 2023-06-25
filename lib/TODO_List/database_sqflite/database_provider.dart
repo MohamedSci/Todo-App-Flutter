@@ -54,7 +54,9 @@ class DatabaseProvider extends Cubit<ChangState> {
     );
   }
 
-  Future<List<TaskModel>> getTasks() async {
+
+
+  Future<List<TaskModel>>fetchTasks() async {
     final db = await database;
     List<TaskModel> taskList = [];
     try{
@@ -85,6 +87,7 @@ class DatabaseProvider extends Cubit<ChangState> {
     }catch(e){
       print("Data Retrieved Exception $e");
     }
+    // setTasksList(tskList: taskList);
     return taskList;
   }
 

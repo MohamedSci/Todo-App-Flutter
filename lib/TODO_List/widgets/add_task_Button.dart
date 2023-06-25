@@ -72,7 +72,7 @@ class _AddTaskButtonState extends State<AddTaskButton> {
               time: todoCont.getTimeText(),
             ),
             child: Container(
-                width: widget.width,
+                width: widget.width * 0.4,
                 height: widget.height * 0.082,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -87,7 +87,7 @@ class _AddTaskButtonState extends State<AddTaskButton> {
                     borderRadius: BorderRadius.all(Radius.circular(32))),
                 child: Center(
                   child: TextWidget(
-                      color: Colors.white, fontSize: 16, txt: widget.btnTxt),
+                      color: Colors.white, fontSize: 17, txt: widget.btnTxt),
                 )),
           );
         });

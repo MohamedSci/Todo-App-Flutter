@@ -35,3 +35,5 @@ class SetTimeTextState extends ChangState {}
 class SetDrawerStateState extends ChangState {}
 
 class SetTaskModelState extends ChangState {}
+
+class SetTasksListState extends ChangState {}
