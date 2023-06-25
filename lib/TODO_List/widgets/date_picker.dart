@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/Constants/colors.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/states/states.dart';
 
 
@@ -14,7 +14,19 @@ class DatePickerWidget extends StatefulWidget {
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
   TextEditingController dateController = TextEditingController();
-
+@override
+void initState() {
+  dateController.text = ToDoController.get(context).getDrawerState() == DrawerState.update?
+      ToDoController.get(context).getDateText():"";
+  // TODO: implement initState
+    super.initState();
+  }
+  @override
+  void dispose() {
+    dateController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ToDoController, ChangState>(
@@ -22,7 +34,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           print(state);
         },
         builder: (context, state) {
-          dateController.text = ToDoController.get(context).getDateText();
         return  Stack(
           children: [
             TextField(
@@ -37,6 +48,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                     looping: true,
                   ).then((value) {
                      ToDoController.get(context).setDateString(value.toString().substring(0,11));
+                     setState(() {
+                       dateController.text = value.toString().substring(0,11);
+                     });
                      print("datePicked datePicked $value");
                    }
                      );
@@ -45,7 +59,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.arrow_drop_down_outlined,size: 27),
-                    hintText: "Start Date",
+                    hintText: "Pick Date",
                     hintStyle: TextStyle(color: Colors.black),
                     // isDense: true,
                     // filled: true,

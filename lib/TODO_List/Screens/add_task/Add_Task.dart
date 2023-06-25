@@ -18,10 +18,11 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController descController = TextEditingController();
-  static TextEditingController dateController = TextEditingController();
-  static TextEditingController timeController = TextEditingController();
+  // TextEditingController nameController = TextEditingController();
+  // TextEditingController descController = TextEditingController();
+  // static TextEditingController dateController = TextEditingController();
+  // static TextEditingController timeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

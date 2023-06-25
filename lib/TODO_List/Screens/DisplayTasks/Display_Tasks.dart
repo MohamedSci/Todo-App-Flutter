@@ -8,6 +8,7 @@ import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
 import 'package:todo_app/states/states.dart';
 
+
 class DisplayingTasks extends StatefulWidget {
   @override
   _DisplayingTasksState createState() => _DisplayingTasksState();
@@ -58,15 +59,15 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
       builder: (context, state) {
         ToDoController toDoController = ToDoController.get(context);
         return Scaffold(
-          drawer: DrawerScreen(width: width, state: DrawerState.insert),
+          endDrawer: DrawerScreen(width: width, state: DrawerState.insert),
           key: scaffoldKey,
           floatingActionButton: InkWell(
             onTap: () {
-              if (scaffoldKey.currentState.isDrawerOpen) {
-                scaffoldKey.currentState.closeDrawer();
+              if (scaffoldKey.currentState.isEndDrawerOpen) {
+                scaffoldKey.currentState.closeEndDrawer();
                 //close drawer, if drawer is open
               } else {
-                scaffoldKey.currentState.openDrawer();
+                scaffoldKey.currentState.openEndDrawer();
                 ToDoController.get(context)
                     .setDrawerState(DrawerState.insert);
                 //open drawer, if drawer is closed
@@ -97,23 +98,29 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
             height: height,
             child: Column(
               children: [
-                SizedBox(
-                    width: width,
-                    height: height * 0.15,
+                SizedBox(width: width,height: height * 0.15,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'TODO',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
+                      children: [
+                  Expanded(flex: 5,
+                    child: Padding(
+                      padding:  EdgeInsets.only(left: width * 0.4),
+                      child: const Text(
+                        'TODO',
+                        style: TextStyle(
+                          fontSize: 24,
                         ),
-                      ],
-                    )),
+                      ),
+                    ),
+                  ),Expanded(flex: 1,child:
+                        FloatingActionButton(elevation: 0,
+                            backgroundColor: const Color(0xFFFFF2E4),
+                            onPressed: () {
+
+                        }, child:const Icon(
+                          Icons.filter_list,color: Color(0xFFFE9299),size: 32,))
+
+                        )
+                ],)),
                 SizedBox(
                   width: width,
                   height: height * 0.75,
@@ -149,7 +156,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: InkWell(
                                   onTap: () {
-                                    scaffoldKey.currentState.openDrawer();
+                                    scaffoldKey.currentState.openEndDrawer();
                                     toDoController
                                         .setDrawerState(DrawerState.update);
                                     toDoController.setIdNum(currentTask.id);
@@ -201,7 +208,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                             MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]}  ",
+                                                "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]} ",
                                                 style: const TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.black,

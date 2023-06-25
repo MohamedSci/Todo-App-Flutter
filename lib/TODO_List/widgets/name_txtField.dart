@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/states/states.dart';
 
 class NameTextField extends StatefulWidget {
@@ -11,7 +12,19 @@ class NameTextField extends StatefulWidget {
 
 class _NameTextFieldState extends State<NameTextField> {
   TextEditingController nameController = TextEditingController();
-
+@override
+void initState() {
+  nameController.text = ToDoController.get(context).getDrawerState() == DrawerState.update?
+      ToDoController.get(context).getNameText():"";
+  // TODO: implement initState
+    super.initState();
+  }
+  @override
+  void dispose() {
+    nameController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return  BlocConsumer<ToDoController, ChangState>(
@@ -19,7 +32,6 @@ class _NameTextFieldState extends State<NameTextField> {
           print(state);
         },
         builder: (context, state) {
-          nameController.text = ToDoController.get(context).getNameText();
         return Stack(
           children: [
             TextField(

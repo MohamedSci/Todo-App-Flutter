@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,19 @@ class DescTextField extends StatefulWidget {
 
 class _DescTextFieldState extends State<DescTextField> {
   TextEditingController descController = TextEditingController();
-
+@override
+void initState() {
+  descController.text = ToDoController.get(context).getDrawerState() == DrawerState.update?
+      ToDoController.get(context).getDescText():"";
+  // TODO: implement initState
+    super.initState();
+  }
+  @override
+  void dispose() {
+    descController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
       return BlocConsumer<ToDoController, ChangState>(
@@ -19,7 +32,6 @@ class _DescTextFieldState extends State<DescTextField> {
           print(state);
         },
         builder: (context, state) {
-          descController.text = ToDoController.get(context).getDescText();
         return TextField(
           onChanged: (value) => ToDoController.get(context).setDescString(value),
           controller: descController,

@@ -30,11 +30,8 @@ class _UpdateTaskButtonState extends State<UpdateTaskButton> {
       @required String date,
       @required String time}) async {
     if (name != "") {
-      int id;
-      // print("id = $id");
       TaskModel updateTask = TaskModel(id: id,
           color: color, title: name, description: desc, date: date, time: time
-          // level:levelController.text , type: typeController.text
           );
       print("One Task module is created");
      int i = await DatabaseProvider.get(context).update(updateTask);
@@ -47,10 +44,6 @@ class _UpdateTaskButtonState extends State<UpdateTaskButton> {
     }
   }
 
-  reset() {
-    // titleController.text = "";
-    // descriptionController.text = "";
-  }
 
   @override
   void initState() {

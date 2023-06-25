@@ -23,12 +23,14 @@ String refresh_token = "";
     return token;
   }
 
+  String tokenBaseUrl = "https://phpstack-561490-3524079.cloudwaysapps.com/api-start-point/public";
+
   Future<bool> getUser(
       {@required String mail, @required String pass}) async {
     bool isAuthenticated = false;
     http.Response response;
     var url =
-        'https://phpstack-561490-3524079.cloudwaysapps.com/api-start-point/public/api/auth/login';
+        '$tokenBaseUrl/api/auth/login';
     Map data = {"password": pass, "email": mail};
     print("pass: $pass");
     print("mail: $mail");
@@ -45,11 +47,11 @@ String refresh_token = "";
     }     else if(response.statusCode == 401){
       //refresh token and call getUser again
       http.Response response = await http.post(Uri.https(
-          "https://phpstack-561490-3524079.cloudwaysapps.com/api-start-point/public/apiauth/refresh-token"),
+          "$tokenBaseUrl/apiauth/refresh-token"),
           headers: {'grant_type': 'refresh_token', 'refresh_token': '$refresh_token'});
       token = json.decode(response.body)["data"]["token"];
       refresh_token = jsonDecode(response.body)['refresh_token'];
-      // return getUser();
+      return getUser(mail: mail,pass: pass);
     }
 
     else {
@@ -57,4 +59,5 @@ String refresh_token = "";
     }
     return isAuthenticated;
   }
+
 }

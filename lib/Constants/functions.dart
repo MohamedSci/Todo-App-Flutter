@@ -5,3 +5,4 @@ int generateRandomNumber(){
   int randomNumber = random.nextInt(10000000);
   return randomNumber;
 }
+
