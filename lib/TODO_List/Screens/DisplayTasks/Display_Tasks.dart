@@ -20,22 +20,6 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
   DateTime dateTime = DateTime.now();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  OnUpdate(int id) {
-    if (titleController.text != "") {
-      print("id = $id");
-      TaskModel updateTask = TaskModel(
-          color: 0,
-          title: titleController.text,
-          description: descriptionController.text,
-          date: "",
-          time: "");
-      print("One Task module is updated");
-      DatabaseProvider.get(context).update(updateTask);
-      print("One Task Updated; all finished");
-    } else {
-      print("there is no title");
-    }
-  }
 
   @override
   void initState() {
@@ -122,13 +106,14 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                 elevation: 0,
                                 backgroundColor: const Color(0xFFFFF2E4),
                                 onPressed: () async {
-                                  ToDoController.get(context).setDrawerState(DrawerState.filter);
                                   await showDialog(
                                     context: context,
-                                    builder: (context) => FilterDialoge(
+                                    builder: (context) {
+                                      // ToDoController.get(context).setDrawerState(DrawerState.filter);
+                                      return FilterDialoge(
                                           height: height,
                                           width: width,
-                                        ));},
+                                        );});},
                                 child: const Icon(
                                   Icons.filter_list,
                                   color: Color(0xFFFE9299),

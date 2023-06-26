@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/Filtering/filter_controller/filter_controller.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/states/states.dart';
@@ -12,7 +13,9 @@ class DescTextField extends StatefulWidget {
 
 class _DescTextFieldState extends State<DescTextField> {
   TextEditingController descController = TextEditingController();
-@override
+  bool isFilterMode = false;
+
+  @override
 void initState() {
   descController.text = ToDoController.get(context).getDrawerState() == DrawerState.update?
       ToDoController.get(context).getDescText():"";
@@ -32,8 +35,13 @@ void initState() {
           print(state);
         },
         builder: (context, state) {
+          ToDoController toDoController = ToDoController.get(context);
+          FilterController filterController = FilterController.get(context);
+          isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
         return TextField(
-          onChanged: (value) => ToDoController.get(context).setDescString(value),
+          onChanged: (value) => isFilterMode ?
+          filterController.setDescString(value):
+          toDoController.setDescString(value),
           controller: descController,
           maxLines: 4,
           style: const TextStyle(

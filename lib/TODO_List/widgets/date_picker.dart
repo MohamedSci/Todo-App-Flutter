@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:todo_app/Filtering/filter_controller/filter_controller.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
@@ -14,7 +15,9 @@ class DatePickerWidget extends StatefulWidget {
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
   TextEditingController dateController = TextEditingController();
-@override
+  bool isFilterMode = false;
+
+  @override
 void initState() {
   dateController.text = ToDoController.get(context).getDrawerState() == DrawerState.update?
       ToDoController.get(context).getDateText():"";
@@ -34,6 +37,9 @@ void initState() {
           print(state);
         },
         builder: (context, state) {
+          ToDoController toDoController = ToDoController.get(context);
+          FilterController filterController = FilterController.get(context);
+          isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
         return  Stack(
           children: [
             TextField(
@@ -47,7 +53,8 @@ void initState() {
                     locale: DateTimePickerLocale.en_us,
                     looping: true,
                   ).then((value) {
-                     ToDoController.get(context).setDateString(value.toString().substring(0,11));
+                    isFilterMode ? filterController.setDateString(value.toString().substring(0,11)):
+                     toDoController.setDateString(value.toString().substring(0,11));
                      setState(() {
                        dateController.text = value.toString().substring(0,11);
                      });

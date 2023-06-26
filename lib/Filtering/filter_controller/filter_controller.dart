@@ -1,33 +1,12 @@
-import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
-import 'package:todo_app/TODO_List/task_model/task_model.dart';
+
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ToDoController extends Cubit<ChangState> {
-  ToDoController() : super(InitialState());
+class FilterController extends Cubit<ChangState> {
+  FilterController() : super(InitialState());
 
-  static ToDoController get(context) => BlocProvider.of(context);
+  static FilterController get(context) => BlocProvider.of(context);
 
-
-
-  DrawerState drawerState = DrawerState.insert;
-  setDrawerState(DrawerState state){
-    drawerState = state;
-    emit(SetDrawerStateState());
-  }
-  DrawerState getDrawerState(){
-    return drawerState;
-  }
-
-
-  int idNum = 0;
-  setIdNum(int nm){
-    idNum = nm;
-    emit(SetIdNumState());
-  }
-  int getIdNum(){
-    return idNum;
-  }
 
   int colorNum = 0;
   setColorNum(int color){

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/TODO_List/widgets/text_widget.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,11 @@ class _FilterConfirmButtonState extends State<FilterConfirmButton> {
       @required String time}) async {
      await DatabaseProvider.get(context).filterTasks(
        color: color,nameDesc: name,date: date ,time: time
-     );
+     ).then((value) {
+       ToDoController.get(context).setDrawerState(DrawerState.filter);
+       Navigator.pop(context);
+     });
+
   }
 
 

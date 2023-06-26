@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:todo_app/Filtering/filter_controller/filter_controller.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/states/states.dart';
@@ -15,7 +16,7 @@ class TimePickerWidget extends StatefulWidget {
 class _TimePickerWidgetState extends State<TimePickerWidget> {
   DateTime dateNow = DateTime.now();
   Time _time;
-
+  bool isFilterMode = false;
   bool iosStyle = true;
   TextEditingController timeController = TextEditingController();
 
@@ -46,10 +47,13 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     super.initState();
   }
 
-  Future<void> onTimeChanged(Time newTime) async {
+  Future<void> onTimeChanged({@required Time newTime,@required bool isFilterMode}) async {
     String vTime = newTime.toString().substring(10, 15);
     parseTime(vTime);
-    await ToDoController.get(context)
+    isFilterMode ?
+    await FilterController.get(context)
+        .setTimeText(vTime)
+   : await ToDoController.get(context)
         .setTimeText(vTime);
     print("_time _time $newTime");
   }
@@ -66,6 +70,8 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     return BlocConsumer<ToDoController, ChangState>(listener: (context, state) {
       print(state);
     }, builder: (context, state) {
+      ToDoController toDoController = ToDoController.get(context);
+      isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
       return Stack(
         children: [
           TextField(
@@ -80,7 +86,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
                   // optional
                   duskSpanInMinutes: 120,
                   // optional
-                  onChange: onTimeChanged,
+                  onChange: (p0) => onTimeChanged(newTime: p0,isFilterMode: isFilterMode),
                 ),
               );
             },

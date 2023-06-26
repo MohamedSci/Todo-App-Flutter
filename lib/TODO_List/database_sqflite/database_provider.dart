@@ -117,7 +117,7 @@ class DatabaseProvider extends Cubit<ChangState> {
           '$COLUMN_DESCRIPTION like ? $opt '
           '$COLUMN_DATE = ? $opt'
           ' $COLUMN_TIME = ?',
-          [color, "%$nameDesc%", "%$nameDesc%", date, time.substring(0, 2)]);
+          [color, "%$nameDesc%", "%$nameDesc%", date, time]);
       taskList = List<TaskModel>();
       tasks.forEach((currenttask) {
         TaskModel task = TaskModel.fromMap(currenttask);

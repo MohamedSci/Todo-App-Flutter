@@ -4,6 +4,9 @@ import 'package:todo_app/Authentication/Logic/Auth_Api.dart';
 import 'package:todo_app/Authentication/Logic/authScreenProvider.dart';
 import 'package:todo_app/Authentication/Screens/auth_error_dialoge.dart';
 import 'package:todo_app/TODO_List/Screens/DisplayTasks/Display_Tasks.dart';
+import 'package:todo_app/TODO_List/controller/todo_controller.dart';
+import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
+import 'package:todo_app/TODO_List/navigation_screen/Navigation_screen.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,11 +56,13 @@ class _LogInButtonState extends State<LogInButton> {
                       if (isAuthenticated != null && isAuthenticated == true) {
                         print("isAuthenticated 01 $isAuthenticated");
                         WidgetsBinding.instance
-                            .addPostFrameCallback((_) => Navigator.push(
+                            .addPostFrameCallback((_) {
+                              ToDoController.get(context).setDrawerState(DrawerState.insert);
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DisplayingTasks()),
-                                ));
+                                      builder: (context) => const NavigationScreen()),
+                                );});
                       } else {
                         await showDialog(
                             context: context,
