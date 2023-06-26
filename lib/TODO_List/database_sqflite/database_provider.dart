@@ -91,21 +91,42 @@ class DatabaseProvider extends Cubit<ChangState> {
     return taskList;
   }
 
-  Future<List<TaskModel>> filterTasks({@required int color}) async {
-    final db = await database;
+  bool isJoined = false;
+
+  setFilterIsJoined(bool joined) {
+    isJoined = joined;
+    emit(SetIsFilterJoinedState());
+  }
+
+  bool getFilterIsJoined() {
+    return isJoined;
+  }
+
+  Future<List<TaskModel>> filterTasks(
+      {@required int color,
+      @required String nameDesc,
+      @required String date,
+      @required String time}) async {
+    String opt = getFilterIsJoined() ? "AND" : "OR";
     List<TaskModel> taskList = [];
+    final db = await database;
     try {
       List<Map> tasks = await db.rawQuery(
-        'SELECT * FROM $TABLE_task WHERE $COLUMN_COLOR = $color',
-      );
+          'SELECT * FROM $TABLE_task WHERE $COLUMN_COLOR = ? $opt'
+          ' $COLUMN_TITLE like ? $opt '
+          '$COLUMN_DESCRIPTION like ? $opt '
+          '$COLUMN_DATE = ? $opt'
+          ' $COLUMN_TIME = ?',
+          [color, "%$nameDesc%", "%$nameDesc%", date, time.substring(0, 2)]);
       taskList = List<TaskModel>();
       tasks.forEach((currenttask) {
         TaskModel task = TaskModel.fromMap(currenttask);
         taskList.add(task);
       });
+      print("Data Filtered Successfully ! ");
       print(taskList);
       Fluttertoast.showToast(
-          msg: "Data Retrieved Successfully !",
+          msg: "Data Filtered Successfully !",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

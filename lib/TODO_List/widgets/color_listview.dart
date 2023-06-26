@@ -47,7 +47,8 @@ class _ColorListViewState extends State<ColorListView> {
               return  Container(
                 margin: const EdgeInsets.all(1.0),
                 padding: const EdgeInsets.all(2.0),
-                decoration: ToDoController.get(context).getColorNum()==kListOptionsColor[i]?
+                decoration:
+                ToDoController.get(context).getColorNum() == kListOptionsColor[i]?
                 BoxDecoration(
                     border: Border.all(color: Color(kListOptionsColor[i]))
                 ):null,

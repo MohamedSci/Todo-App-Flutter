@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/Constants/month_map.dart';
+import 'package:todo_app/Filtering/filter_dialoge/filter_dialoge.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_screen.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
 import 'package:todo_app/states/states.dart';
-
 
 class DisplayingTasks extends StatefulWidget {
   @override
@@ -68,8 +68,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                 //close drawer, if drawer is open
               } else {
                 scaffoldKey.currentState.openEndDrawer();
-                ToDoController.get(context)
-                    .setDrawerState(DrawerState.insert);
+                ToDoController.get(context).setDrawerState(DrawerState.insert);
                 //open drawer, if drawer is closed
               }
             },
@@ -78,10 +77,12 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                 width: width * 0.17,
                 decoration: const BoxDecoration(
                     color: Color(0xFF13A3FF),
-                    borderRadius: BorderRadius.all(Radius.circular(28))
-                ),
-                child:  Icon(Icons.add,color: Colors.white,size: width * 0.09,)
-            ),
+                    borderRadius: BorderRadius.all(Radius.circular(28))),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: width * 0.09,
+                )),
           ),
           body: Container(
             decoration: const BoxDecoration(
@@ -98,29 +99,43 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
             height: height,
             child: Column(
               children: [
-                SizedBox(width: width,height: height * 0.15,
+                SizedBox(
+                    width: width,
+                    height: height * 0.15,
                     child: Row(
                       children: [
-                  Expanded(flex: 5,
-                    child: Padding(
-                      padding:  EdgeInsets.only(left: width * 0.4),
-                      child: const Text(
-                        'TODO',
-                        style: TextStyle(
-                          fontSize: 24,
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: width * 0.4),
+                            child: const Text(
+                              'TODO',
+                              style: TextStyle(
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),Expanded(flex: 1,child:
-                        FloatingActionButton(elevation: 0,
-                            backgroundColor: const Color(0xFFFFF2E4),
-                            onPressed: () {
-
-                        }, child:const Icon(
-                          Icons.filter_list,color: Color(0xFFFE9299),size: 32,))
-
-                        )
-                ],)),
+                        Expanded(
+                            flex: 1,
+                            child: FloatingActionButton(
+                                elevation: 0,
+                                backgroundColor: const Color(0xFFFFF2E4),
+                                onPressed: () async {
+                                  ToDoController.get(context).setDrawerState(DrawerState.filter);
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => FilterDialoge(
+                                          height: height,
+                                          width: width,
+                                        ));},
+                                child: const Icon(
+                                  Icons.filter_list,
+                                  color: Color(0xFFFE9299),
+                                  size: 32,
+                                )))
+                      ],
+                    )),
                 SizedBox(
                   width: width,
                   height: height * 0.75,
@@ -133,7 +148,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                           return const SizedBox();
                         }
                         List<TaskModel> taskData =
-                        snapshot.hasData ? snapshot.data : [];
+                            snapshot.hasData ? snapshot.data : [];
                         return ListView.builder(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 4),
@@ -174,8 +189,8 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                   child: Container(
                                     decoration: const BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(14))
-                                    ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(14))),
                                     height: height * 0.1,
                                     width: width,
                                     child: Row(
@@ -184,7 +199,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                           flex: 1,
                                           child: CircleAvatar(
                                             backgroundColor:
-                                            Color(taskData[index].color),
+                                                Color(taskData[index].color),
                                             radius: 16,
                                           ),
                                         ),
@@ -203,9 +218,9 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                           flex: 1,
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]} ",
@@ -213,7 +228,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                                     fontSize: 12,
                                                     color: Colors.black,
                                                     fontWeight:
-                                                    FontWeight.w600),
+                                                        FontWeight.w600),
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
@@ -222,7 +237,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                                     fontSize: 10,
                                                     color: Colors.indigo,
                                                     fontWeight:
-                                                    FontWeight.w400),
+                                                        FontWeight.w400),
                                               ),
                                             ],
                                           ),

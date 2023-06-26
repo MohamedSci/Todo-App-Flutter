@@ -3,12 +3,12 @@ import 'package:todo_app/Constants/colors.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
 import 'package:todo_app/TODO_List/widgets/date_picker.dart';
 import 'package:todo_app/TODO_List/widgets/color_listview.dart';
-import 'package:todo_app/TODO_List/widgets/delete_task_Button.dart';
+import 'package:todo_app/TODO_List/widgets/buttons/delete_task_Button.dart';
 import 'package:todo_app/TODO_List/widgets/desc_txt_field.dart';
 import 'package:todo_app/TODO_List/widgets/name_txtField.dart';
 import 'package:todo_app/TODO_List/widgets/text_widget.dart';
 import 'package:todo_app/TODO_List/widgets/time_picker.dart';
-import 'package:todo_app/TODO_List/widgets/update_task_Button.dart';
+import 'package:todo_app/TODO_List/widgets/buttons/update_task_Button.dart';
 
 class UpdateTask extends StatefulWidget {
   UpdateTask({

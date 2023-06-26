@@ -37,3 +37,5 @@ class SetDrawerStateState extends ChangState {}
 class SetTaskModelState extends ChangState {}
 
 class SetTasksListState extends ChangState {}
+
+class SetIsFilterJoinedState extends ChangState {}
