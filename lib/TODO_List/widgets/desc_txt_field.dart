@@ -13,7 +13,6 @@ class DescTextField extends StatefulWidget {
 
 class _DescTextFieldState extends State<DescTextField> {
   TextEditingController descController = TextEditingController();
-  bool isFilterMode = false;
 
   @override
 void initState() {
@@ -35,13 +34,14 @@ void initState() {
           print(state);
         },
         builder: (context, state) {
-          ToDoController toDoController = ToDoController.get(context);
-          FilterController filterController = FilterController.get(context);
-          isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
-        return TextField(
-          onChanged: (value) => isFilterMode ?
-          filterController.setDescString(value):
-          toDoController.setDescString(value),
+          // ToDoController toDoController = ToDoController.get(context);
+          // FilterController filterController = FilterController.get(context);
+         // bool isFilterMode = ToDoController.get(context).getDrawerState() == DrawerState.filter;
+         //  print("desc isFilterMode $isFilterMode");
+
+          return TextField(
+          onChanged: (value) =>
+          ToDoController.get(context).setDescString(value),
           controller: descController,
           maxLines: 4,
           style: const TextStyle(

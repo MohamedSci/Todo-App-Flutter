@@ -29,9 +29,9 @@ void main() {
     BlocProvider<ToDoController>(
       create: (BuildContext context) => ToDoController(),
     ),
-    BlocProvider<FilterController>(
-      create: (BuildContext context) => FilterController(),
-    ),
+    // BlocProvider<FilterController>(
+    //   create: (BuildContext context) => FilterController(),
+    // ),
   ], child: MyApp()));
 }
 

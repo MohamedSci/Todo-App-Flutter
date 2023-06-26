@@ -16,7 +16,6 @@ class ColorListView extends StatefulWidget {
 }
 
 class _ColorListViewState extends State<ColorListView> {
-bool isFilterMode = false;
   bool isChoosed = false;
   List<int> kListOptionsColor = [
     0xFFFF008D,
@@ -30,20 +29,17 @@ bool isFilterMode = false;
   @override
   Widget build(BuildContext context) {
     print("kListOptionsColor $kListOptionsColor");
-    return BlocConsumer<FilterController, ChangState>(
-        listener: (context, state) {
-          print(state);
-        },
-        builder: (context, state) {
           return BlocConsumer<ToDoController, ChangState>(
             listener: (context, state) {
               print(state);
             },
             builder: (context, state) {
-              ToDoController toDoController = ToDoController.get(context);
-              FilterController filterController = FilterController.get(context);
-             isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
-            return SizedBox(
+              // ToDoController toDoController = ToDoController.get(context);
+              // FilterController filterController = FilterController.get(context);
+          // bool   isFilterMode = ToDoController.get(context).getDrawerState() == DrawerState.filter;
+          //     print("color isFilterMode $isFilterMode");
+
+              return SizedBox(
               width: widget.width,
               height: widget.height * 0.11,
               child:
@@ -53,9 +49,7 @@ bool isFilterMode = false;
                 shrinkWrap: true,
                 itemCount: kListOptionsColor.length,
                 itemBuilder: (context, i) {
-               bool isSelected =   isFilterMode?
-               filterController.getColorNum() == kListOptionsColor[i]
-                      :toDoController.getColorNum() == kListOptionsColor[i];
+               bool isSelected = ToDoController.get(context).getColorNum() == kListOptionsColor[i];
 
                   print("kListOptionsColor i --- ${kListOptionsColor[i]}");
                   return  Container(
@@ -70,9 +64,7 @@ bool isFilterMode = false;
                     width: widget.width * 0.12,
                     child: InkWell(
                         onTap: () {
-                          isFilterMode ?
-                  FilterController.get(context).setColorNum(kListOptionsColor[i]):
-                  toDoController.setColorNum(kListOptionsColor[i]);
+                          ToDoController.get(context).setColorNum(kListOptionsColor[i]);
                           setState(() {
                             isChoosed = true;
                           });
@@ -85,7 +77,5 @@ bool isFilterMode = false;
             );
           }
         );
-      }
-    );
   }
 }

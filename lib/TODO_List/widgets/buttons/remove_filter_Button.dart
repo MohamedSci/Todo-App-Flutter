@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
-import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/TODO_List/widgets/text_widget.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FilterConfirmButton extends StatefulWidget {
-  FilterConfirmButton(
+class RemoveFilterButton extends StatefulWidget {
+  RemoveFilterButton(
       {Key key,
       @required this.btnTxt,
       @required this.height,
@@ -18,24 +17,10 @@ class FilterConfirmButton extends StatefulWidget {
   double width, height;
 
   @override
-  State<FilterConfirmButton> createState() => _FilterConfirmButtonState();
+  State<RemoveFilterButton> createState() => _RemoveFilterButtonState();
 }
 
-class _FilterConfirmButtonState extends State<FilterConfirmButton> {
-  filterFun(
-      {
-        @required int color,
-      @required String name,
-      @required String date,
-      @required String time}) async {
-     await DatabaseProvider.get(context).filterTasks(
-       color: color,nameDesc: name,date: date ,time: time
-     ).then((value) {
-       ToDoController.get(context).setDrawerState(DrawerState.filter);
-       Navigator.pop(context);
-     });
-
-  }
+class _RemoveFilterButtonState extends State<RemoveFilterButton> {
 
 
   @override
@@ -57,26 +42,20 @@ void dispose() {
         builder: (context, state) {
           ToDoController todoCont = ToDoController.get(context);
           return InkWell(
-            onTap: () {  todoCont.setDrawerState(DrawerState.filter);
+            onTap: () {  todoCont.setDrawerState(DrawerState.insert);
               Navigator.pop(context);},
 
-              //     filterFun(
-            //   color: todoCont.getColorNum(),
-            //   name: todoCont.getNameText(),
-            //   date: todoCont.getDateText(),
-            //   time: todoCont.getTimeText(),
-            // ),
             child: Container(
-                width: widget.width * 0.2,
+                width: widget.width * 0.3,
                 height: widget.height * 0.082,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.topRight,
                       colors: [
-                        Color(0xFF254DDE),
-                        Color(0xFF1988E9),
-                        Color(0xFF08D8F8)
+                        Colors.tealAccent,
+                        Color(0xFF08D8F8),
+                        Colors.teal
                       ],
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(32))),

@@ -16,7 +16,6 @@ class TimePickerWidget extends StatefulWidget {
 class _TimePickerWidgetState extends State<TimePickerWidget> {
   DateTime dateNow = DateTime.now();
   Time _time;
-  bool isFilterMode = false;
   bool iosStyle = true;
   TextEditingController timeController = TextEditingController();
 
@@ -47,14 +46,12 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     super.initState();
   }
 
-  Future<void> onTimeChanged({@required Time newTime,@required bool isFilterMode}) async {
+  Future<void> onTimeChanged({@required Time newTime}) async {
     String vTime = newTime.toString().substring(10, 15);
     parseTime(vTime);
-    isFilterMode ?
-    await FilterController.get(context)
-        .setTimeText(vTime)
-   : await ToDoController.get(context)
+ await ToDoController.get(context)
         .setTimeText(vTime);
+
     print("_time _time $newTime");
   }
 
@@ -70,8 +67,10 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     return BlocConsumer<ToDoController, ChangState>(listener: (context, state) {
       print(state);
     }, builder: (context, state) {
-      ToDoController toDoController = ToDoController.get(context);
-      isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
+      // ToDoController toDoController = ToDoController.get(context);
+     // bool isFilterMode = ToDoController.get(context).getDrawerState() == DrawerState.filter;
+     //  print("time isFilterMode $isFilterMode");
+
       return Stack(
         children: [
           TextField(
@@ -86,7 +85,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
                   // optional
                   duskSpanInMinutes: 120,
                   // optional
-                  onChange: (p0) => onTimeChanged(newTime: p0,isFilterMode: isFilterMode),
+                  onChange: (p0) => onTimeChanged(newTime: p0),
                 ),
               );
             },

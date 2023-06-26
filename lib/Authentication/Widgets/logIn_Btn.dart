@@ -61,7 +61,7 @@ class _LogInButtonState extends State<LogInButton> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const NavigationScreen()),
+                                      builder: (context) =>  DisplayingTasks()),
                                 );});
                       } else {
                         await showDialog(

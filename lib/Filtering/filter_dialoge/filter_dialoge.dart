@@ -5,6 +5,7 @@ import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/widgets/buttons/Filter_Radio_Button.dart';
 import 'package:todo_app/TODO_List/widgets/buttons/back_task_Button.dart';
 import 'package:todo_app/TODO_List/widgets/buttons/filter_confirm_Button.dart';
+import 'package:todo_app/TODO_List/widgets/buttons/remove_filter_Button.dart';
 import 'package:todo_app/TODO_List/widgets/color_listview.dart';
 import 'package:todo_app/TODO_List/widgets/date_picker.dart';
 import 'package:todo_app/TODO_List/widgets/name_txtField.dart';
@@ -106,7 +107,7 @@ class _FilterDialogeState extends State<FilterDialoge> {
                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
                              // BackTaskButton(height: widget.height, width: widget.width, btnTxt: "Back"),
-                             FilterRadioButton(height: widget.height, width: widget.width),
+                             RemoveFilterButton(btnTxt: "No Filter",height: widget.height, width: widget.width),
                              FilterConfirmButton(height: widget.height, width: widget.width,btnTxt: "Filter",),
 
                            ],

@@ -65,7 +65,7 @@ class DatabaseProvider extends Cubit<ChangState> {
         COLUMN_DESCRIPTION,
         COLUMN_DATE,
         COLUMN_TIME,
-      ]);
+      ],);
       // if (tasks.isEmpty) return [];
       print(tasks);
       taskList = List<TaskModel>();
@@ -111,20 +111,49 @@ class DatabaseProvider extends Cubit<ChangState> {
     List<TaskModel> taskList = [];
     final db = await database;
     try {
+      print("filter color $color namedesc $nameDesc date $date  time $time ");
       List<Map> tasks = await db.rawQuery(
-          'SELECT * FROM $TABLE_task WHERE $COLUMN_COLOR = ? $opt'
-          ' $COLUMN_TITLE like ? $opt '
-          '$COLUMN_DESCRIPTION like ? $opt '
-          '$COLUMN_DATE = ? $opt'
+          'SELECT * FROM $TABLE_task WHERE $COLUMN_COLOR = ? or'
+          ' $COLUMN_TITLE like ? or '
+          '$COLUMN_DESCRIPTION like ? or '
+          '$COLUMN_DATE = ? or'
           ' $COLUMN_TIME = ?',
           [color, "%$nameDesc%", "%$nameDesc%", date, time]);
+      // List<Map> tasks = await db.query(TABLE_task,
+      //     columns: [
+      //       COLUMN_ID,
+      //       COLUMN_COLOR,
+      //       COLUMN_TITLE,
+      //       COLUMN_DESCRIPTION,
+      //       COLUMN_DATE,
+      //       COLUMN_TIME,
+      //     ],
+      //     where: "$COLUMN_TITLE = ?  ",
+      //     whereArgs:["%$nameDesc%"],
+      //     orderBy: 'id'
+      // );
+
+      // List<Map> tasks = await db.query(TABLE_task,
+      //     columns: [
+      //       COLUMN_ID,
+      //       COLUMN_COLOR,
+      //       COLUMN_TITLE,
+      //       COLUMN_DESCRIPTION,
+      //       COLUMN_DATE,
+      //       COLUMN_TIME,
+      //     ],
+      //     where: "$COLUMN_COLOR = ? $opt $COLUMN_TITLE LIKE ? $opt $COLUMN_DESCRIPTION LIKE ?  $opt $COLUMN_DATE = ?  $opt $COLUMN_TIME  = ? ",
+      //     whereArgs:[color, "%$nameDesc%", "%$nameDesc%", date, time],
+      //     orderBy: 'id'
+      //     );
+
       taskList = List<TaskModel>();
       tasks.forEach((currenttask) {
         TaskModel task = TaskModel.fromMap(currenttask);
         taskList.add(task);
       });
       print("Data Filtered Successfully ! ");
-      print(taskList);
+      print("taskList Filtered $tasks");
       Fluttertoast.showToast(
           msg: "Data Filtered Successfully !",
           toastLength: Toast.LENGTH_SHORT,
