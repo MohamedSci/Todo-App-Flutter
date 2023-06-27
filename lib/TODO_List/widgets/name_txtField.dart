@@ -13,7 +13,6 @@ class NameTextField extends StatefulWidget {
 
 class _NameTextFieldState extends State<NameTextField> {
   TextEditingController nameController = TextEditingController();
-  bool isFilterMode = false;
 
   @override
 void initState() {
@@ -35,15 +34,16 @@ void initState() {
               print(state);
             },
             builder: (context, state) {
-              ToDoController toDoController = ToDoController.get(context);
-              FilterController filterController = FilterController.get(context);
-              isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
+              // ToDoController toDoController = ToDoController.get(context);
+              // FilterController filterController = FilterController.get(context);
+             bool isFilterMode = ToDoController.get(context).getDrawerState() == DrawerState.filter;
+              print("txt isFilterMode $isFilterMode");
             return Stack(
               children: [
                 TextField(
                   onChanged: (value) => isFilterMode?
-                  filterController.setNameText(value):
-                  toDoController.setNameText(value),
+                  FilterController.get(context).setNameText(value):
+                  ToDoController.get(context).setNameText(value),
                   controller: nameController,
                   style: const TextStyle(
                       fontSize: 12,

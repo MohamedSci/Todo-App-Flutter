@@ -16,7 +16,6 @@ class ColorListView extends StatefulWidget {
 }
 
 class _ColorListViewState extends State<ColorListView> {
-bool isFilterMode = false;
   bool isChoosed = false;
   List<int> kListOptionsColor = [
     0xFFFF008D,
@@ -40,10 +39,12 @@ bool isFilterMode = false;
               print(state);
             },
             builder: (context, state) {
-              ToDoController toDoController = ToDoController.get(context);
-              FilterController filterController = FilterController.get(context);
-             isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
-            return SizedBox(
+              // ToDoController toDoController = ToDoController.get(context);
+              // FilterController filterController = FilterController.get(context);
+          bool   isFilterMode = ToDoController.get(context).getDrawerState() == DrawerState.filter;
+              print("color isFilterMode $isFilterMode");
+
+              return SizedBox(
               width: widget.width,
               height: widget.height * 0.11,
               child:
@@ -54,8 +55,8 @@ bool isFilterMode = false;
                 itemCount: kListOptionsColor.length,
                 itemBuilder: (context, i) {
                bool isSelected =   isFilterMode?
-               filterController.getColorNum() == kListOptionsColor[i]
-                      :toDoController.getColorNum() == kListOptionsColor[i];
+               FilterController.get(context).getColorNum() == kListOptionsColor[i]
+                      :ToDoController.get(context).getColorNum() == kListOptionsColor[i];
 
                   print("kListOptionsColor i --- ${kListOptionsColor[i]}");
                   return  Container(
@@ -72,7 +73,7 @@ bool isFilterMode = false;
                         onTap: () {
                           isFilterMode ?
                   FilterController.get(context).setColorNum(kListOptionsColor[i]):
-                  toDoController.setColorNum(kListOptionsColor[i]);
+                          ToDoController.get(context).setColorNum(kListOptionsColor[i]);
                           setState(() {
                             isChoosed = true;
                           });

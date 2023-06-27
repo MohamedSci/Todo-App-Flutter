@@ -15,7 +15,6 @@ class DatePickerWidget extends StatefulWidget {
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
   TextEditingController dateController = TextEditingController();
-  bool isFilterMode = false;
 
   @override
 void initState() {
@@ -37,10 +36,12 @@ void initState() {
           print(state);
         },
         builder: (context, state) {
-          ToDoController toDoController = ToDoController.get(context);
-          FilterController filterController = FilterController.get(context);
-          isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
-        return  Stack(
+          // ToDoController toDoController = ToDoController.get(context);
+          // FilterController filterController = FilterController.get(context);
+         bool isFilterMode = ToDoController.get(context).getDrawerState() == DrawerState.filter;
+          print("date isFilterMode $isFilterMode");
+
+          return  Stack(
           children: [
             TextField(
                 onTap: () async {
@@ -53,8 +54,8 @@ void initState() {
                     locale: DateTimePickerLocale.en_us,
                     looping: true,
                   ).then((value) {
-                    isFilterMode ? filterController.setDateString(value.toString().substring(0,11)):
-                     toDoController.setDateString(value.toString().substring(0,11));
+                    isFilterMode ? FilterController.get(context).setDateString(value.toString().substring(0,11)):
+                    ToDoController.get(context).setDateString(value.toString().substring(0,11));
                      setState(() {
                        dateController.text = value.toString().substring(0,11);
                      });

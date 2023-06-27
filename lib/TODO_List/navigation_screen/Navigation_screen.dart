@@ -27,7 +27,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         builder: (context, state) {
           ToDoController toDoController = ToDoController.get(context);
           isFilterMode = toDoController.getDrawerState() == DrawerState.filter;
-        return isFilterMode ? FilterScreen() : DisplayingTasks();
+        return isFilterMode ?  FilterScreen(): DisplayingTasks();
       }
     );
   }

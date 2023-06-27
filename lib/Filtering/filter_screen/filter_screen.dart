@@ -32,7 +32,7 @@ class _FilterScreenState extends State<FilterScreen> {
   }
   @override
   void dispose() {
-    ToDoController.get(context).setDrawerState(DrawerState.insert);
+    // ToDoController.get(context).setDrawerState(DrawerState.insert);
 
     // TODO: implement dispose
     super.dispose();
@@ -57,7 +57,6 @@ class _FilterScreenState extends State<FilterScreen> {
           },
           builder: (context, state) {
             ToDoController toDoController = ToDoController.get(context);
-            FilterController filterController = FilterController.get(context);
 
             return Scaffold(
               endDrawer: DrawerScreen(width: width, state: DrawerState.insert),
@@ -137,7 +136,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                     elevation: 0,
                                     backgroundColor: const Color(0xFFFFF2E4),
                                     onPressed: () async {
-                                      // ToDoController.get(context).setDrawerState(DrawerState.filter);
+                                      ToDoController.get(context).setDrawerState(DrawerState.filter);
                                       await showDialog(
                                         context: context,
                                         builder: (context) => FilterDialoge(
@@ -158,14 +157,20 @@ class _FilterScreenState extends State<FilterScreen> {
                         onRefresh: _refreshList,
                         child: FutureBuilder<List<TaskModel>>(
                           future: DatabaseProvider.get(context).filterTasks(
-                              color: filterController.getColorNum(), nameDesc: filterController.getNameText(),
-                              date: filterController.getDateText(), time: filterController.getTimeText()),
+                              color: FilterController.get(context).getColorNum(), nameDesc: FilterController.get(context).getNameText(),
+                              date: FilterController.get(context).getDateText(), time: FilterController.get(context).getTimeText()),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState != ConnectionState.done) {
                               return const SizedBox();
                             }
                             List<TaskModel> taskData =
                                 snapshot.hasData ? snapshot.data : [];
+                            print('filter screen -FilterController-- color: ${FilterController.get(context).getColorNum()}, nameDesc: ${FilterController.get(context).getNameText()},'
+                               ' date: ${FilterController.get(context).getDateText()}, time: ${FilterController.get(context).getTimeText()}'
+                               );
+                            print('filter screen ToDoController--- color: ${ToDoController.get(context).getColorNum()}, nameDesc: ${ToDoController.get(context).getNameText()},'
+                                ' date: ${ToDoController.get(context).getDateText()}, time: ${ToDoController.get(context).getTimeText()}'
+                            );
                             return ListView.builder(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 4),

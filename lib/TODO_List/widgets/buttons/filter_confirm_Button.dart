@@ -43,7 +43,13 @@ class _FilterConfirmButtonState extends State<FilterConfirmButton> {
     // TODO: implement initState
     super.initState();
   }
+@override
+void dispose() {
+  ToDoController.get(context).setDrawerState(DrawerState.insert);
 
+  // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ToDoController, ChangState>(
@@ -51,12 +57,15 @@ class _FilterConfirmButtonState extends State<FilterConfirmButton> {
         builder: (context, state) {
           ToDoController todoCont = ToDoController.get(context);
           return InkWell(
-            onTap: () => filterFun(
-              color: todoCont.getColorNum(),
-              name: todoCont.getNameText(),
-              date: todoCont.getDateText(),
-              time: todoCont.getTimeText(),
-            ),
+            onTap: () {  todoCont.setDrawerState(DrawerState.filter);
+              Navigator.pop(context);},
+
+              //     filterFun(
+            //   color: todoCont.getColorNum(),
+            //   name: todoCont.getNameText(),
+            //   date: todoCont.getDateText(),
+            //   time: todoCont.getTimeText(),
+            // ),
             child: Container(
                 width: widget.width * 0.4,
                 height: widget.height * 0.082,

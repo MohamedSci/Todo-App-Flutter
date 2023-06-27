@@ -106,6 +106,8 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                 elevation: 0,
                                 backgroundColor: const Color(0xFFFFF2E4),
                                 onPressed: () async {
+                                  ToDoController.get(context).setDrawerState(DrawerState.filter);
+
                                   await showDialog(
                                     context: context,
                                     builder: (context) {
