@@ -47,17 +47,10 @@ class _AddTaskButtonState extends State<AddTaskButton> {
        final minDiff = minutesBetween(creationDate , execDate);
 
        NotificationService notificationService = NotificationService();
-       notificationService.showNotification(id, name, desc, minDiff);
-
-       print("exex date Add Btn ${execDate.toIso8601String()}");
-       print("creation date Add Btn ${creationDate.toIso8601String()}");
-       print("secDiff date Add Btn ${minDiff.toString()}");
+       notificationService.showNotification(id, name, desc, minDiff).then((value) =>  Navigator.pop(context));
 
 
-       // reset();
-       print("color :$color , name : $name , desc : $desc , date : $date , time : $time");
-      print("One Task 0123456789 Inserted;");
-      Navigator.pop(context);}
+     }
     } else {
       Fluttertoast.showToast(
           msg: "You have to input a title !",

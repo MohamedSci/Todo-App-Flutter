@@ -46,21 +46,11 @@ class _UpdateTaskButtonState extends State<UpdateTaskButton> {
 
         NotificationService notificationService = NotificationService();
         notificationService.cancelNotification(id);
-        notificationService.showNotification(id, name, desc, minDiff);
-
-        print("exex date Add Btn ${execDate.toIso8601String()}");
-        print("creation date Add Btn ${creationDate.toIso8601String()}");
-        print("secDiff date Add Btn ${minDiff.toString()}");
-
-
-        // reset();
-        print("color :$color , name : $name , desc : $desc , date : $date , time : $time");
-        print("One Task 0123456789 Inserted;");
-        Navigator.pop(context);}
-    } else {
+        notificationService.showNotification(id, name, desc, minDiff).then((value) =>  Navigator.pop(context));
+      } else {
       print("there is no title");
     }
-  }
+  }}
 
 
   @override
