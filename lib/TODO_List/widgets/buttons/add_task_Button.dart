@@ -7,6 +7,7 @@ import 'package:todo_app/TODO_List/task_model/task_model.dart';
 import 'package:todo_app/TODO_List/widgets/text_widget.dart';
 import 'package:todo_app/states/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddTaskButton extends StatefulWidget {
   AddTaskButton(
@@ -40,17 +41,31 @@ class _AddTaskButtonState extends State<AddTaskButton> {
       print("One Task module is created");
      int i = await DatabaseProvider.get(context).insert(insertTask);
      if(i != null){
+       // reset();
        print("color :$color , name : $name , desc : $desc , date : $date , time : $time");
       print("One Task 0123456789 Inserted;");
       Navigator.pop(context);}
     } else {
+      Fluttertoast.showToast(
+          msg: "You have to input a title !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amberAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+
       print("there is no title");
     }
   }
 
   reset() {
-    // titleController.text = "";
-    // descriptionController.text = "";
+ToDoController.get(context).setColorNum(0);
+ToDoController.get(context).setNameText("");
+ToDoController.get(context).setDescString("");
+ToDoController.get(context).setDateString("");
+ToDoController.get(context).setTimeText("");
+
   }
 
   @override

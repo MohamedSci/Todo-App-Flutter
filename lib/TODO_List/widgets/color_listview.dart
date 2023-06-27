@@ -17,6 +17,7 @@ class ColorListView extends StatefulWidget {
 
 class _ColorListViewState extends State<ColorListView> {
   bool isChoosed = false;
+
   List<int> kListOptionsColor = [
     0xFFFF008D,
     0xFF0DC4F4,

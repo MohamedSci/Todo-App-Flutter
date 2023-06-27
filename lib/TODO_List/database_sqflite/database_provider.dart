@@ -74,14 +74,6 @@ class DatabaseProvider extends Cubit<ChangState> {
         taskList.add(task);
       });
       print(taskList);
-      Fluttertoast.showToast(
-          msg: "Data Retrieved Successfully !",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.amberAccent,
-          textColor: Colors.white,
-          fontSize: 16.0);
     } catch (e) {
       print("Data Retrieved Exception $e");
     }
@@ -119,33 +111,6 @@ class DatabaseProvider extends Cubit<ChangState> {
           '$COLUMN_DATE = ? $opt'
           ' $COLUMN_TIME = ?',
           [color, "%$nameDesc%", "%$nameDesc%", date, time]);
-      // List<Map> tasks = await db.query(TABLE_task,
-      //     columns: [
-      //       COLUMN_ID,
-      //       COLUMN_COLOR,
-      //       COLUMN_TITLE,
-      //       COLUMN_DESCRIPTION,
-      //       COLUMN_DATE,
-      //       COLUMN_TIME,
-      //     ],
-      //     where: "$COLUMN_TITLE = ?  ",
-      //     whereArgs:["%$nameDesc%"],
-      //     orderBy: 'id'
-      // );
-
-      // List<Map> tasks = await db.query(TABLE_task,
-      //     columns: [
-      //       COLUMN_ID,
-      //       COLUMN_COLOR,
-      //       COLUMN_TITLE,
-      //       COLUMN_DESCRIPTION,
-      //       COLUMN_DATE,
-      //       COLUMN_TIME,
-      //     ],
-      //     where: "$COLUMN_COLOR = ? $opt $COLUMN_TITLE LIKE ? $opt $COLUMN_DESCRIPTION LIKE ?  $opt $COLUMN_DATE = ?  $opt $COLUMN_TIME  = ? ",
-      //     whereArgs:[color, "%$nameDesc%", "%$nameDesc%", date, time],
-      //     orderBy: 'id'
-      //     );
 
       taskList = List<TaskModel>();
       tasks.forEach((currenttask) {
@@ -154,14 +119,6 @@ class DatabaseProvider extends Cubit<ChangState> {
       });
       print("Data Filtered Successfully ! ");
       print("taskList Filtered $tasks");
-      Fluttertoast.showToast(
-          msg: "Data Filtered Successfully !",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.amberAccent,
-          textColor: Colors.white,
-          fontSize: 16.0);
     } catch (e) {
       print("Data Filtration Exception $e");
     }

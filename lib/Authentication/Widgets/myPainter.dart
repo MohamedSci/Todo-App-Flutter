@@ -7,7 +7,7 @@ class MyPainter extends CustomPainter {
     Paint paint = Paint()..color = const Color(0xFFF3F0F8);
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(size.height / 2, size.width / 2),
+        center: Offset(size.height / 2.5, size.width / 2),
         height: size.height,
         width: size.width,
       ),
