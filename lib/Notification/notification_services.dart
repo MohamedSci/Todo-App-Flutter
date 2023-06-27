@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:io' show Platform;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -20,6 +21,7 @@ class NotificationService {
     // Android initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('icon_todo');
+
     // ios initialization
     const DarwinInitializationSettings initializationSettingsIOS =
     DarwinInitializationSettings(
@@ -28,10 +30,27 @@ class NotificationService {
       requestSoundPermission: false,
       // onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
+
     const InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
+    //Permissions
+    if (Platform.isAndroid) {
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>().requestPermission();
+    } else if (Platform.isIOS) {
+      final bool result = await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
+
     tz.initializeTimeZones(); // <------
     // the initialization settings are initialized after they are setted
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,

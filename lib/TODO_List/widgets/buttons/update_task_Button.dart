@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/Constants/functions.dart';
+import 'package:todo_app/Notification/notification_services.dart';
 import 'package:todo_app/TODO_List/controller/todo_controller.dart';
 import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
@@ -35,10 +37,26 @@ class _UpdateTaskButtonState extends State<UpdateTaskButton> {
           );
       print("One Task module is created");
      int i = await DatabaseProvider.get(context).update(updateTask);
-     if(i != null){
-       print("id: $id , color :$color , name : $name , desc : $desc , date : $date , time : $time");
-      print("One Task 0123456789 Update;");
-      Navigator.pop(context);}
+      if(i != null && date != null && date.length >= 10 && time.length >= 5){
+        //the Notification's date
+        final execDate = DateTime(int.parse(date.substring(0,4).toString()), int.parse(date.substring(5,7).toString()),
+            int.parse(date.substring(8,10).toString()),int.parse(time.substring(0,2).toString()),int.parse(time.substring(3,5).toString()));
+        final creationDate = DateTime.now();
+        final minDiff = minutesBetween(creationDate , execDate);
+
+        NotificationService notificationService = NotificationService();
+        notificationService.cancelNotification(id);
+        notificationService.showNotification(id, name, desc, minDiff);
+
+        print("exex date Add Btn ${execDate.toIso8601String()}");
+        print("creation date Add Btn ${creationDate.toIso8601String()}");
+        print("secDiff date Add Btn ${minDiff.toString()}");
+
+
+        // reset();
+        print("color :$color , name : $name , desc : $desc , date : $date , time : $time");
+        print("One Task 0123456789 Inserted;");
+        Navigator.pop(context);}
     } else {
       print("there is no title");
     }

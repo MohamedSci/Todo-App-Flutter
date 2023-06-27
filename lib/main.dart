@@ -16,7 +16,6 @@ import 'package:todo_app/generalWidgets/custum_route.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<AuthApi>(
       create: (BuildContext context) => AuthApi(),
