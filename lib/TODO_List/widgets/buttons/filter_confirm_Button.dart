@@ -45,7 +45,7 @@ class _FilterConfirmButtonState extends State<FilterConfirmButton> {
   }
 @override
 void dispose() {
-  ToDoController.get(context).setDrawerState(DrawerState.insert);
+  // ToDoController.get(context).setDrawerState(DrawerState.insert);
 
   // TODO: implement dispose
     super.dispose();

@@ -150,9 +150,9 @@ class _FilterScreenState extends State<FilterScreen> {
                                     )))
                           ],
                         )),
-                    SizedBox(
-                      width: width,
-                      height: height * 0.75,
+                    Expanded(
+                      // width: width,
+                      // height: height * 0.75,
                       child: RefreshIndicator(
                         onRefresh: _refreshList,
                         child: FutureBuilder<List<TaskModel>>(
@@ -171,106 +171,109 @@ class _FilterScreenState extends State<FilterScreen> {
                             print('filter screen ToDoController--- color: ${ToDoController.get(context).getColorNum()}, nameDesc: ${ToDoController.get(context).getNameText()},'
                                 ' date: ${ToDoController.get(context).getDateText()}, time: ${ToDoController.get(context).getTimeText()}'
                             );
-                            return ListView.builder(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 4),
-                              itemCount: taskData?.length ?? 0,
-                              itemBuilder: (BuildContext context, int index) {
-                                TaskModel currentTask = taskData[index];
-                                return Dismissible(
-                                  key: const Key("task"),
-                                  onDismissed: (direction) {
-                                    DatabaseProvider.get(context)
-                                        .delete(currentTask.id);
-                                    setState(() {
-                                      taskData.removeAt(currentTask.id);
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                        content: Text(
-                                            '${currentTask.title} Deleted Successfully')));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        scaffoldKey.currentState.openEndDrawer();
-                                        toDoController
-                                            .setDrawerState(DrawerState.update);
-                                        toDoController.setIdNum(currentTask.id);
-                                        toDoController
-                                            .setNameText(currentTask.title);
-                                        toDoController
-                                            .setColorNum(currentTask.color);
-                                        toDoController
-                                            .setDescString(currentTask.description);
-                                        toDoController
-                                            .setDateString(currentTask.date);
-                                        toDoController
-                                            .setTimeText(currentTask.time);
-                                      },
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(14))),
-                                        height: height * 0.1,
-                                        width: width,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: CircleAvatar(
-                                                backgroundColor:
-                                                    Color(taskData[index].color),
-                                                radius: 16,
+                            return Padding(
+                              padding:  EdgeInsets.only(bottom: height * 0.1),
+                              child: ListView.builder(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 4),
+                                itemCount: taskData?.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  TaskModel currentTask = taskData[index];
+                                  return Dismissible(
+                                    key: const Key("task"),
+                                    onDismissed: (direction) {
+                                      DatabaseProvider.get(context)
+                                          .delete(currentTask.id);
+                                      setState(() {
+                                        taskData.removeAt(currentTask.id);
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                          content: Text(
+                                              '${currentTask.title} Deleted Successfully')));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          scaffoldKey.currentState.openEndDrawer();
+                                          toDoController
+                                              .setDrawerState(DrawerState.update);
+                                          toDoController.setIdNum(currentTask.id);
+                                          toDoController
+                                              .setNameText(currentTask.title);
+                                          toDoController
+                                              .setColorNum(currentTask.color);
+                                          toDoController
+                                              .setDescString(currentTask.description);
+                                          toDoController
+                                              .setDateString(currentTask.date);
+                                          toDoController
+                                              .setTimeText(currentTask.time);
+                                        },
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(14))),
+                                          height: height * 0.1,
+                                          width: width,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
+                                                child: currentTask.color != null ? CircleAvatar(
+                                                  backgroundColor:
+                                                      Color(currentTask.color),
+                                                  radius: 16,
+                                                ):const SizedBox(),
                                               ),
-                                            ),
-                                            Expanded(
-                                              flex: 6,
-                                              child: Text(
-                                                "  ${taskData[index].title}",
-                                                overflow: TextOverflow.fade,
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color(0xFF181743),
-                                                    fontWeight: FontWeight.w500),
+                                              Expanded(
+                                                flex: 6,
+                                                child: currentTask.title.isNotEmpty ? Text(
+                                                  "  ${currentTask.title}",
+                                                  overflow: TextOverflow.fade,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Color(0xFF181743),
+                                                      fontWeight: FontWeight.w500),
+                                                ):const SizedBox(),
                                               ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]} ",
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                  const SizedBox(height: 5),
-                                                  Text(
-                                                    "${taskData[index].time}  ",
-                                                    style: const TextStyle(
-                                                        fontSize: 10,
-                                                        color: Colors.indigo,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                  ),
-                                                ],
+                                              Expanded(
+                                                flex: 1,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                  currentTask.date.isNotEmpty ?  Text(
+                                                      "${currentTask.date.substring(8, 10)} ${monthMap[currentTask.date.substring(5, 7)]} ",
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ):const SizedBox(),
+                                                    const SizedBox(height: 5),
+                                                  currentTask.time.isNotEmpty ?  Text(
+                                                      "${currentTask.time}  ",
+                                                      style: const TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.indigo,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ):const SizedBox(),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             );
                           },
                         ),

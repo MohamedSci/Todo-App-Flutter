@@ -29,7 +29,7 @@ class _AddTaskButtonState extends State<AddTaskButton> {
       @required String desc,
       @required String date,
       @required String time}) async {
-    if (name != "") {
+    if (name.isNotEmpty) {
       int id;
       // print("id = $id");
       TaskModel insertTask = TaskModel(
