@@ -7,6 +7,7 @@ import 'package:todo_app/TODO_List/database_sqflite/database_provider.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_screen.dart';
 import 'package:todo_app/TODO_List/drawer/drawer_state_enum.dart';
 import 'package:todo_app/TODO_List/task_model/task_model.dart';
+import 'package:todo_app/generalWidgets/default_no_data.dart';
 import 'package:todo_app/states/states.dart';
 
 class DisplayingTasks extends StatefulWidget {
@@ -138,7 +139,8 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                               snapshot.hasData ? snapshot.data : [];
                           return Padding(
                             padding: EdgeInsets.only(bottom: height * 0.1),
-                            child: ListView.builder(
+                            child: taskData.isNotEmpty ?
+                            ListView.builder(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 4),
                               itemCount: taskData?.length ?? 0,
@@ -242,7 +244,7 @@ class _DisplayingTasksState extends State<DisplayingTasks> {
                                   ),
                                 );
                               },
-                            ),
+                            ):const DefaultNoData(),
                           );
                         },
                       ),

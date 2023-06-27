@@ -1,1 +1,1 @@
-const APP_NAME = "ToDo";
+const APP_NAME = "TODO";
