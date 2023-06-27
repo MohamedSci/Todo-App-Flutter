@@ -45,33 +45,40 @@ class NotificationService {
      print('selectNotification');
   }
 
-  Future<void> showNotification(int id, String title, String body) async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.now(tz.local).add(const Duration(
-          seconds: 1)), //schedule the notification to show after 2 seconds.
-      const NotificationDetails(
-        // Android details
-        android: AndroidNotificationDetails(
-            'main_channel', 'Main Channel', channelDescription: "ashwin",
-            importance: Importance.max, priority: Priority.max),
-        // iOS details
-        iOS: DarwinNotificationDetails(
-          sound: 'default.wav',
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
+  Future<void> showNotification(int id, String title, String body, int minutes ) async {
+    print("showNotification back 0 minutes${minutes.toString()}");
+    try{
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        tz.TZDateTime.now(tz.local).add(Duration(
+            minutes: minutes)), //schedule the notification to show after 2 seconds.
+        const NotificationDetails(
+          // Android details
+          android: AndroidNotificationDetails(
+              'main_channel', 'Main Channel', channelDescription: "ashwin",
+              importance: Importance.max, priority: Priority.max),
+          // iOS details
+          iOS: DarwinNotificationDetails(
+            sound: 'default.wav',
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
         ),
-      ),
 
-      // Type of time interpretation
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle:
-          true, // To show notification even when the app is closed
-    );
+        // Type of time interpretation
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle:
+        true, // To show notification even when the app is closed
+      );
+    }catch(e){
+      print("showNotification Exception back 0 minutes${minutes.toString()} $e");
+
+    }
+
   }
 
   showScheduledNotification({

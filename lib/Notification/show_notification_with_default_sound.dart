@@ -25,15 +25,14 @@ Future showNotificationWithDefaultSound(flip) async {
     //Secondary description  (only from iOS 10 onwards)
     threadIdentifier: "", //(only from iOS 10 onwards)
   );
-
   // initialise channel platform for both Android and iOS device.
   var platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
   await flip.show(
       0,
-      'GeeksforGeeks',
-      'Your are one step away to connect with GeeksforGeeks',
+      'TODO',
+      'Your are one step away to connect with TODO',
       platformChannelSpecifics,
       payload: 'Default_Sound');
 }
