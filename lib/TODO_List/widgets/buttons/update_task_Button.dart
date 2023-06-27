@@ -46,7 +46,7 @@ class _UpdateTaskButtonState extends State<UpdateTaskButton> {
 
         NotificationService notificationService = NotificationService();
         notificationService.cancelNotification(id);
-        notificationService.showNotification(id, name, desc, minDiff).then((value) =>  Navigator.pop(context));
+        notificationService.showNotification(id, name, desc, minDiff);
       } else {
       print("there is no title");
     }
@@ -66,14 +66,18 @@ class _UpdateTaskButtonState extends State<UpdateTaskButton> {
         builder: (context, state) {
           ToDoController todoCont = ToDoController.get(context);
           return InkWell(
-            onTap: () => updateFun(
+            onTap: () {updateFun(
               id: todoCont.getIdNum(),
               color: todoCont.getColorNum(),
               name: todoCont.getNameText(),
               desc: todoCont.getDescText(),
               date: todoCont.getDateText(),
               time: todoCont.getTimeText(),
-            ),
+            );
+            Navigator.pop(context);
+
+            
+              },
             child: Container(
                 width: widget.width * 0.4,
                 height: widget.height * 0.082,

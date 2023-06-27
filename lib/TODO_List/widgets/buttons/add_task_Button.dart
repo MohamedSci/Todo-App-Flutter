@@ -47,7 +47,8 @@ class _AddTaskButtonState extends State<AddTaskButton> {
        final minDiff = minutesBetween(creationDate , execDate);
 
        NotificationService notificationService = NotificationService();
-       notificationService.showNotification(id, name, desc, minDiff).then((value) =>  Navigator.pop(context));
+       notificationService.showNotification(id, name, desc, minDiff);
+
 
 
      }
@@ -87,13 +88,15 @@ ToDoController.get(context).setTimeText("");
         builder: (context, state) {
           ToDoController todoCont = ToDoController.get(context);
           return InkWell(
-            onTap: () => OnSave(
+            onTap: (){ OnSave(
               color: todoCont.getColorNum(),
               name: todoCont.getNameText(),
               desc: todoCont.getDescText(),
               date: todoCont.getDateText(),
               time: todoCont.getTimeText(),
-            ),
+            );
+            Navigator.pop(context);
+              },
             child: Container(
                 width: widget.width * 0.4,
                 height: widget.height * 0.082,
